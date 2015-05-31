@@ -14,6 +14,14 @@
     xmlns:settings="http://schemas.android.com/apk/res/com.android.settings"
     android:title="@string/category_heads_up">
 
+    <!-- Heads Up Colors -->
+    <PreferenceScreen
+        android:key="heads_up_colors"
+        android:fragment="com.android.settings.aicp.HeadsUpColors"
+        android:title="@string/heads_up_colors_title"
+        android:summary="@string/heads_up_colors_summary" />
+
+
     <com.android.settings.rr.SeekBarPreference
         android:key="heads_up_time_out"
         android:title="@string/heads_up_time_out_title"
@@ -61,3 +69,4 @@
     </PreferenceCategory>
 
 </PreferenceScreen>
+

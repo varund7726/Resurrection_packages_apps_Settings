@@ -302,6 +302,10 @@
     <string name="heads_up_disabled_notice">To allow applications to display interactive notifications in a pop-up window on your screen, enable Heads up.</string>
     <string name="heads_up_floating_window_title">Heads Up</string>
     <string name="heads_up_floating_window_summary">Longpress and release to open in float mode when not on home screen</string>
+    <string name="heads_up_bg_color_title">Background color</string>
+    <string name="heads_up_text_color_title">Text color</string>
+    <string name="heads_up_colors_title">Custom Colors</string>
+    <string name="heads_up_colors_summary">Customize heads up text and background color</string>
  
     <!-- Heads up timeout -->
     <string name="heads_up_time_out_title">Time out</string>
@@ -1131,3 +1135,4 @@
     <string name="lock_screen_hide_carrier_summary">SystemUI will be restarted on switch toggle.</string>
 
 </resources>
+
