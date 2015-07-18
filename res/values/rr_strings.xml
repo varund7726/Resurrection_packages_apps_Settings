@@ -726,6 +726,7 @@
     <string name="dlg_reset_values_message">Reset values</string>
     <string name="dlg_reset_android">Android</string>
     <string name="dlg_reset_temasek">Custom</string>
+    <string name="dlg_reset_rr">RR</string>
 
     <!-- Privacy guard notification -->
     <string name="privacy_guard_notification_title">Notification</string>

@@ -181,7 +181,7 @@ public class HeadsUpColors extends SettingsPreferenceFragment implements
                             getOwner().refreshSettings();
                         }
                     })
-                    .setPositiveButton(R.string.dlg_reset_aicp,
+                    .setPositiveButton(R.string.dlg_reset_rr,
                         new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
                             Settings.System.putInt(getOwner().mResolver,
