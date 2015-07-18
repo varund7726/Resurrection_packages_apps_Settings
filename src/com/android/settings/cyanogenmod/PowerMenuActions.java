@@ -49,7 +49,7 @@ public class PowerMenuActions extends SettingsPreferenceFragment
 
     final static String TAG = "PowerMenuActions";
 
-    private static final String SCREENSHOT_DELAY = "screenshot_delay"
+    private static final String SCREENSHOT_DELAY = "screenshot_delay";
 
     private CheckBoxPreference mRebootPref;
     private CheckBoxPreference mScreenshotPref;
