@@ -22,20 +22,23 @@
     <PreferenceScreen
         android:key="aokp_animation"
         android:title="@string/system_animation_title"
-        android:fragment="com.android.settings.rr.animation.AnimationControls" />
+        android:fragment="com.android.settings.rr.animation.AnimationControls"
+	android:icon="@drawable/ic_xd_animation" />
 
     <ListPreference
         android:key="toast_animation"
         android:title="@string/toast_animation_title"
         android:entries="@array/toast_animation_entries"
         android:entryValues="@array/toast_animation_values"
-        android:persistent="false" />
+        android:persistent="false" 
+	android:icon="@drawable/ic_settings_applications"/>
 
     <com.android.settings.cyanogenmod.SystemSettingSwitchPreference
         android:key="toast_icon"
         android:title="@string/toast_icon_title"
         android:summary="@string/toast_icon_summary"
-        android:defaultValue="true" />
+        android:defaultValue="true"
+	android:icon="@drawable/ic_settings_about" />
 
     <ListPreference
         android:key="listview_animation"
@@ -43,7 +46,8 @@
         android:title="@string/listview_animation_title"
         android:entries="@array/listview_animation_entries"
         android:entryValues="@array/listview_animation_values"
-        android:defaultValue="0" />
+        android:defaultValue="0" 
+	android:icon="@drawable/ic_xd_recents"/>
 
     <ListPreference
         android:key="listview_interpolator"
@@ -51,7 +55,8 @@
         android:title="@string/listview_interpolator_title"
         android:entries="@array/listview_interpolator_entries"
         android:entryValues="@array/listview_interpolator_values"
-        android:defaultValue="0" />
+        android:defaultValue="0"
+	android:icon="@drawable/ic_list_tint" />
 
     <ListPreference
         android:key="pref_scrollingcache"
@@ -59,6 +64,7 @@
         android:title="@string/pref_scrollingcache_title"
         android:summary="@string/pref_scrollingcache_summary"
         android:entries="@array/entries_scrollingcache"
-        android:entryValues="@array/values_scrollingcache" />
+        android:entryValues="@array/values_scrollingcache"
+	android:icon="@drawable/ic_cache_tint" />
 
 </PreferenceScreen>

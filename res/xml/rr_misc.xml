@@ -28,7 +28,8 @@
         <SwitchPreference
             android:key="selinux"
             android:title="@string/selinux_title"
-            android:defaultValue="false" />
+            android:defaultValue="false"
+	    android:icon="@drawable/selinux_tint" />
 
          <!--Preference
             android:key="warning_multi_window"
@@ -42,20 +43,23 @@
 
 
    <Preference android:key="restart_systemui"
-        android:title="@string/restart_systemui" />
+        android:title="@string/restart_systemui"
+	android:icon="@drawable/ic_systemui_tint" />
 
 	<!-- Bar color -->
     <com.android.settings.cyanogenmod.SystemSettingSwitchPreference
             android:key="battery_save_mode_color"
             android:title="@string/battery_saver_color_title"
             android:summary="@string/battery_saver_color_summary"
-            android:defaultValue="true" />
+            android:defaultValue="true"
+	    android:icon="@drawable/ic_settings_battery"/>
 
     <com.android.settings.cyanogenmod.SystemSettingSwitchPreference
         android:key="disable_fc_notifications"
         android:title="@string/disable_fc_notifications_title"
         android:summary="@string/disable_fc_notifications_summary"
-        android:defaultValue="false" />
+        android:defaultValue="false"
+	android:icon="@drawable/fc_disable_tint" />
 
 
 </PreferenceScreen>

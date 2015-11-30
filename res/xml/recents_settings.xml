@@ -23,26 +23,30 @@
         <com.android.settings.cyanogenmod.CMSystemSettingSwitchPreference
                 android:key="recents_show_search_bar"
                 android:title="@string/recents_show_searchbar"
-                android:defaultValue="true" />
+                android:defaultValue="true"
+		android:icon="@drawable/ic_xd_recents" />
 
         <com.android.settings.cyanogenmod.SystemSettingSwitchPreference
             android:key="systemui_recents_mem_display"
             android:title="@string/recents_show_membar_title"
             android:summary="@string/recents_show_membar_summary"
-            android:defaultValue="false" />
+            android:defaultValue="false"
+	    android:icon="@drawable/ic_settings_data_usage" />
 
         <com.android.settings.cyanogenmod.SystemSettingSwitchPreference
             android:key="show_clear_all_recents"
             android:title="@string/show_clear_all_recents_button_title"
             android:summary="@string/show_clear_all_recents_button_summary"
-            android:defaultValue="true" />
+            android:defaultValue="true" 
+	    android:icon="@drawable/ic_clearall_tint"/>
 
         <com.android.settings.cyanogenmod.SystemSettingSwitchPreference
             android:key="recents_clear_all_dismiss_all"
             android:title="@string/recents_clear_all_dismiss_all_title"
             android:summary="@string/recents_clear_all_dismiss_all_summary"
             android:defaultValue="true"
-            android:dependency="show_clear_all_recents" />
+            android:dependency="show_clear_all_recents"
+	    android:icon="@drawable/ic_item_delete_tint" />
 
         <ListPreference
             android:key="recents_clear_all_location"
@@ -50,14 +54,16 @@
             android:entries="@array/recents_clear_all_location_entries"
             android:entryValues="@array/recents_clear_all_location_values"
             android:defaultValue="3"
-            android:dependency="show_clear_all_recents" />
+            android:dependency="show_clear_all_recents" 
+	    android:icon="@drawable/ic_recents_position"/>
 
        <com.android.settings.cyanogenmod.SystemSettingSwitchPreference
 	    android:key="recents_full_screen"
             android:title="@string/recents_show_fullscreen"
             android:summaryOn="@string/recents_fullscreen_summary_enabled"
             android:summaryOff="@string/recents_fullscreen_summary_disabled"
-            android:defaultValue="false" />
+            android:defaultValue="false" 
+	    android:icon="@drawable/ic_fullscreen_tint"/>
 
     </PreferenceCategory>
 
@@ -70,7 +76,8 @@
             android:key="omniswitch"
             android:id="@+id/omniswitch"
             android:title="@string/omniswitch_settings_title"
-            android:fragment="com.android.settings.rr.OmniSwitch" />
+            android:fragment="com.android.settings.rr.OmniSwitch"
+	    android:icon="@drawable/ic_omni_tint"/>
 
     </PreferenceCategory>
 

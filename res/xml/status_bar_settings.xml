@@ -26,7 +26,8 @@
     <PreferenceScreen
         android:key="clock"
         android:title="@string/clock_category"
-	android:fragment="com.android.settings.rr.ClockSettings" />
+	android:fragment="com.android.settings.rr.ClockSettings"
+	android:icon="@drawable/ic_settings_date_time" />
 
 
  </PreferenceCategory>
@@ -41,21 +42,24 @@
         android:title="@string/status_bar_battery_style_title"
         android:dialogTitle="@string/status_bar_battery_style_title"
         android:entries="@array/status_bar_battery_style_entries"
-        android:entryValues="@array/status_bar_battery_style_values" />
+        android:entryValues="@array/status_bar_battery_style_values"
+	android:icon="@drawable/ic_settings_battery" />
 
     <ListPreference
         android:key="status_bar_show_battery_percent"
         android:title="@string/status_bar_battery_percentage_title"
         android:dialogTitle="@string/status_bar_battery_percentage_title"
         android:entries="@array/status_bar_battery_percentage_entries"
-        android:entryValues="@array/status_bar_battery_percentage_values" />
+        android:entryValues="@array/status_bar_battery_percentage_values" 
+	android:icon="@drawable/ic_settings_about"/>
 
 
        <!-- Bettery Bar -->
         <PreferenceScreen
             android:key="battery_bar"
             android:fragment="com.android.settings.rr.BatteryBar"
-            android:title="@string/battery_bar"       
+            android:title="@string/battery_bar" 
+	    android:icon="@drawable/ic_xd_batterybar"	      
             />
      </PreferenceCategory>
 
@@ -68,35 +72,41 @@
     <PreferenceScreen
            android:key="carrierlabel"
            android:title="@string/carrier_options"
-	   android:fragment="com.android.settings.rr.CarrierLabel"  />
+	   android:fragment="com.android.settings.rr.CarrierLabel"
+	   android:icon="@drawable/ic_sim_sd"/>
 
     <PreferenceScreen
            android:key="network_traffic_settings"
            android:title="@string/network_traffic_title"
-           android:fragment="com.android.settings.rr.NetworkTrafficSettings" />
+           android:fragment="com.android.settings.rr.NetworkTrafficSettings"
+	   android:icon="@drawable/stat_sys_network_traffic_updown_tint"/>
 
      <PreferenceScreen
             android:key="rr_logo"
             android:fragment="com.android.settings.rr.fragments.Logo"
-            android:title="@string/status_bar_logo" />
+            android:title="@string/status_bar_logo"
+	    android:icon="@drawable/ic_rr_tools_tint"/>
 
      <com.android.settings.cyanogenmod.CMSystemSettingSwitchPreference
         android:key="status_bar_show_weather"
         android:title="@string/status_bar_show_weather_title"
         android:summary="@string/status_bar_show_weather_summary"
-        android:defaultValue="true" />
+        android:defaultValue="true"
+	android:icon="@drawable/ic_settings_language" />
 
      <PreferenceScreen
         android:key="statusbar_weather"
 	android:fragment="com.android.settings.rr.StatusBarWeather"
-        android:title="@string/status_bar_temperature_title" />
+        android:title="@string/status_bar_temperature_title"
+	android:icon="@drawable/ic_settings_backup" />
 
     <!-- Headset icon switch -->
     <com.android.settings.cyanogenmod.SystemSettingSwitchPreference
         android:key="show_headset_icon"
         android:title="@string/show_headset_icon_title"
         android:summary="@string/show_headset_icon_summary"
-        android:defaultValue="true" />
+        android:defaultValue="true"
+	android:icon="@drawable/stat_sys_headset" />
 
 
      </PreferenceCategory>
@@ -118,19 +128,22 @@
         android:key="status_bar_brightness_control"
         android:title="@string/status_bar_toggle_brightness"
         android:summary="@string/status_bar_toggle_brightness_summary"
-        android:defaultValue="false" />
+        android:defaultValue="false"
+	android:icon="@drawable/ic_brightness_tint"/>
 
      <com.android.settings.cyanogenmod.CMSystemSettingSwitchPreference
         android:key="status_bar_notif_count"
         android:title="@string/status_bar_notif_count_title"
         android:summary="@string/status_bar_notif_count_summary"
-        android:defaultValue="false" />
+        android:defaultValue="false"
+	android:icon="@drawable/ic_settings_more" />
 
      <com.android.settings.cyanogenmod.SystemSettingSwitchPreference
                 android:key="double_tap_sleep_gesture"
                 android:title="@string/double_tap_to_sleep_title"
                 android:summary="@string/double_tap_to_sleep_summary"
-                android:defaultValue="true" />
+                android:defaultValue="true"
+		android:icon="@drawable/ic_rr_gestures_tint"  />
 
      </PreferenceCategory>
 
