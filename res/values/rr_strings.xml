@@ -2359,4 +2359,11 @@
 
     <string name="bluetooth_battery_title">Show Bluetooth battery status</string>
     <string name="bluetooth_battery_summary">Show battery status for the currently connected bluetooth device, if availible.</string>
+
+    <!-- Screenshot crop and share -->
+    <string name="screenshot_cat_title">Screenshot Options</string>
+    <string name="screenshot_crop_and_share_title">Crop &amp; share</string>
+    <string name="screenshot_crop_and_share_summary">Show an editor window after taking a screenshot in order to do some operations like cropping, saving or sharing</string>
+    <string name="screenshot_crop_behavior_title">Crop mode</string>
+    <string name="screenshot_crop_behavior_summary">Always use the cropped image inside the cropping area, even if the apply button hasn\'t been pressed</string>
 </resources>
