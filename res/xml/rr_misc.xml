@@ -81,6 +81,8 @@
            </intent>
        </Preference>
 
+</PreferenceCategory>
+
 
     <PreferenceCategory
         android:key="misc_4"
