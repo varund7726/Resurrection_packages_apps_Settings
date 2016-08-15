@@ -92,13 +92,15 @@ public class BatteryBar extends SettingsPreferenceFragment implements
 	
         mBatteryBarChargingColor = (ColorPickerPreference) findPreference(PREF_BATT_BAR_CHARGING_COLOR);
         mBatteryBarChargingColor.setOnPreferenceChangeListener(this);
-        intColor = Settings.System.getInt(getActivity().getContentResolver(), Settings.System.STATUSBAR_BATTERY_BAR_CHARGING_COLOR, defaultColor);
+        intColor = Settings.System.getInt(resolver,
+                Settings.System.STATUSBAR_BATTERY_BAR_CHARGING_COLOR, defaultColor);
         hexColor = String.format("#%08x", (0xffffffff & intColor));
         mBatteryBarChargingColor.setSummary(hexColor);
  
         mBatteryBarBatteryLowColor = (ColorPickerPreference) findPreference(STATUS_BAR_BAR_LOW_COLOR);
         mBatteryBarBatteryLowColor.setOnPreferenceChangeListener(this);
-        intColor = Settings.System.getInt(getActivity().getContentResolver(), Settings.System.STATUSBAR_BATTERY_BAR_LOW_COLOR, lowColor);
+        intColor = Settings.System.getInt(resolver, 
+                Settings.System.STATUSBAR_BATTERY_BAR_LOW_COLOR, lowColor);
         hexColor = String.format("#%08x", (0xffff4444 & intColor));
         mBatteryBarBatteryLowColor.setSummary(hexColor);
 
