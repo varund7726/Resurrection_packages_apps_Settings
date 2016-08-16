@@ -243,7 +243,7 @@ public class ButtonSettings extends SettingsPreferenceFragment implements
             // Power menu alpha
             mPowerMenuAlpha =
                     (SeekBarPreferenceCham) findPreference(PREF_TRANSPARENT_POWER_MENU);
-            int powerMenuAlpha = Settings.System.getInt(mResolver,
+            int powerMenuAlpha = Settings.System.getInt(resolver,
                     Settings.System.TRANSPARENT_POWER_MENU, 100);
             mPowerMenuAlpha.setValue(powerMenuAlpha / 1);
             mPowerMenuAlpha.setOnPreferenceChangeListener(this);
@@ -251,7 +251,7 @@ public class ButtonSettings extends SettingsPreferenceFragment implements
 	    // Power/reboot dialog dim
             mPowerDialogDim =
                     (SeekBarPreferenceCham) findPreference(PREF_TRANSPARENT_POWER_DIALOG_DIM);
-            int powerDialogDim = Settings.System.getInt(mResolver,
+            int powerDialogDim = Settings.System.getInt(resolver,
                     Settings.System.TRANSPARENT_POWER_DIALOG_DIM, 50);
             mPowerDialogDim.setValue(powerDialogDim / 1);
             mPowerDialogDim.setOnPreferenceChangeListener(this);
@@ -522,12 +522,12 @@ public class ButtonSettings extends SettingsPreferenceFragment implements
             return true;
 	}  else if (preference == mPowerMenuAlpha) {
 		int alpha = (Integer) newValue;
-                Settings.System.putInt(mResolver,
+                Settings.System.putInt(getActivity().getApplicationContext().getContentResolver(),
                         Settings.System.TRANSPARENT_POWER_MENU, alpha * 1);
                 return true;
 	}  else if (preference == mPowerDialogDim) {
 		int alpha = (Integer) newValue;
-                Settings.System.putInt(mResolver,
+                Settings.System.putInt(getActivity().getApplicationContext().getContentResolver(),
                         Settings.System.TRANSPARENT_POWER_DIALOG_DIM, alpha * 1);
                 return true;
         }  else if (preference == mEnableHwKeys) {

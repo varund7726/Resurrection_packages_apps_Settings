@@ -144,9 +144,7 @@ public class NotificationsColor extends SettingsPreferenceFragment implements
         mBgColor.setNewPreviewColor(intColor);
         hexColor = String.format("#%08x", (0xffffffff & intColor));
         mBgColor.setSummary(hexColor);
-        mBgColor.setDefaultColors(WHITE, WHITE);
         mBgColor.setOnPreferenceChangeListener(this);
-        mBgColor.setAlphaSliderEnabled(true);
 
         mBgGutsColor =
                 (ColorPickerPreference) findPreference(PREF_BG_GUTS_COLOR);
@@ -155,9 +153,7 @@ public class NotificationsColor extends SettingsPreferenceFragment implements
         mBgGutsColor.setNewPreviewColor(intColor);
         hexColor = String.format("#%08x", (0xffffffff & intColor));
         mBgGutsColor.setSummary(hexColor);
-        mBgGutsColor.setDefaultColors(SYSTEMUI_SECONDARY, SYSTEMUI_SECONDARY);
         mBgGutsColor.setOnPreferenceChangeListener(this);
-        mBgGutsColor.setAlphaSliderEnabled(true);
 
         PreferenceCategory colorCat =
                 (PreferenceCategory) findPreference(PREF_CAT_COLORS);
@@ -169,9 +165,7 @@ public class NotificationsColor extends SettingsPreferenceFragment implements
             mAppIconBgColor.setNewPreviewColor(intColor);
             hexColor = String.format("#%08x", (0xffffffff & intColor));
             mAppIconBgColor.setSummary(hexColor);
-            mAppIconBgColor.setDefaultColors(TRANSLUCENT_WHITE, TRANSLUCENT_HOLO_BLUE_LIGHT);
             mAppIconBgColor.setOnPreferenceChangeListener(this);
-            mAppIconBgColor.setAlphaSliderEnabled(true);
         } else {     
             colorCat.removePreference(mAppIconBgColor);
         }
@@ -182,7 +176,6 @@ public class NotificationsColor extends SettingsPreferenceFragment implements
         mRippleColor.setNewPreviewColor(intColor);
         hexColor = String.format("#%08x", (0xffffffff & intColor));
         mRippleColor.setSummary(hexColor);
-        mRippleColor.setDefaultColors(HOLO_BLUE_LIGHT, HOLO_BLUE_LIGHT);
         mRippleColor.setOnPreferenceChangeListener(this);
 
         mTextColor =
@@ -192,17 +185,15 @@ public class NotificationsColor extends SettingsPreferenceFragment implements
         mTextColor.setNewPreviewColor(intColor);
         hexColor = String.format("#%08x", (0xff000000 & intColor));
         mTextColor.setSummary(hexColor);
-        mTextColor.setDefaultColors(WHITE, HOLO_BLUE_LIGHT);
         mTextColor.setOnPreferenceChangeListener(this);
 
         mIconColor =
                 (ColorPickerPreference) findPreference(PREF_ICON_COLOR);
         intColor = Settings.System.getInt(mResolver,
-                Settings.System.NOTIFICATION_ICON_COLOR, MATERIAL_GREEN_LIGHT); 
+                Settings.System.NOTIFICATION_ICON_COLOR, MATERIAL_GREEN); 
         mIconColor.setNewPreviewColor(intColor);
         hexColor = String.format("#%08x", (0xff009688 & intColor));
         mIconColor.setSummary(hexColor);
-        mIconColor.setDefaultColors(WHITE, HOLO_BLUE_LIGHT);
         mIconColor.setOnPreferenceChangeListener(this);
 
         mClearAllIconColor =
@@ -212,9 +203,7 @@ public class NotificationsColor extends SettingsPreferenceFragment implements
         mClearAllIconColor.setNewPreviewColor(intColor);
         hexColor = String.format("#%08x", (0xffffffff & intColor));
         mClearAllIconColor.setSummary(hexColor);
-        mClearAllIconColor.setDefaultColors(WHITE, HOLO_BLUE_LIGHT);
         mClearAllIconColor.setOnPreferenceChangeListener(this);
-        mClearAllIconColor.setAlphaSliderEnabled(true);
 
         // Notifications alpha
         mNotificationsAlpha =
@@ -229,12 +218,8 @@ public class NotificationsColor extends SettingsPreferenceFragment implements
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        int color = Settings.System.getInt(mResolver,
-                Settings.System.SETTINGS_ICON_COLOR, 0xFFFFFFFF);
-        Drawable d = getResources().getDrawable(com.android.internal.R.drawable.ic_settings_backup_restore).mutate();
-        d.setColorFilter(color, Mode.SRC_IN);
         menu.add(0, MENU_RESET, 0, R.string.reset)
-                .setIcon(d)
+                .setIcon(R.drawable.ic_menu_reset) // use the KitKat backup icon
                 .setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
     }
 
@@ -247,7 +232,7 @@ public class NotificationsColor extends SettingsPreferenceFragment implements
              default:
                 return super.onContextItemSelected(item);
         }
-    }
+}
 
     public boolean onPreferenceChange(Preference preference, Object newValue) {
         boolean value;
@@ -362,8 +347,8 @@ public class NotificationsColor extends SettingsPreferenceFragment implements
             return frag;
         }
 
-        NotificationColorSettings getOwner() {
-            return (NotificationColorSettings) getTargetFragment();
+        NotificationsColor getOwner() {
+            return (NotificationsColor) getTargetFragment();
         }
 
         @Override
@@ -408,7 +393,7 @@ public class NotificationsColor extends SettingsPreferenceFragment implements
                             getOwner().refreshSettings();
                         }
                     })
-                    .setPositiveButton(R.string.reset_rr,
+                    .setPositiveButton(R.string.reset_darkkat_title,
                         new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
                             Settings.System.putInt(getOwner().mResolver,
@@ -451,26 +436,4 @@ public class NotificationsColor extends SettingsPreferenceFragment implements
 
         }
     }
-
-        public static final Indexable.SearchIndexProvider SEARCH_INDEX_DATA_PROVIDER =
-            new BaseSearchIndexProvider() {
-                @Override
-                public List<SearchIndexableResource> getXmlResourcesToIndex(Context context,
-                                                                             boolean enabled) {
-                     ArrayList<SearchIndexableResource> result =
-                             new ArrayList<SearchIndexableResource>();
- 
-                     SearchIndexableResource sir = new SearchIndexableResource(context);
-                    sir.xmlResId = R.xml.notifications_color;
-                     result.add(sir);
- 
-                     return result;
-                 }
- 
-                 @Override
-                 public List<String> getNonIndexableKeys(Context context) {
-                     final List<String> keys = new ArrayList<String>();
-                     return keys;
-                 }
-         };
 }
