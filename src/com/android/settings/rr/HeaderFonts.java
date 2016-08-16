@@ -60,7 +60,8 @@ public class HeaderFonts extends SettingsPreferenceFragment  implements Preferen
  private static final String PREF_STATUS_BAR_HEADER_FONT_STYLE = "status_bar_header_font_style";
  private static final String PREF_STATUS_BAR_DETAIL_FONT_STYLE = "header_detail_font_style";
  private static final String PREF_STATUS_BAR_DATE_FONT_STYLE = "header_date_font_style";	
- private static final String PREF_STATUS_BAR_ALARM_FONT_STYLE = "header_alarm_font_style";	
+ private static final String PREF_STATUS_BAR_ALARM_FONT_STYLE = "header_alarm_font_style";
+ private static final String NOTIFICATION_FONT_STYLES = "notification_font_styles";	
 	
     private ListPreference mStatusBarClockFontStyle;	
     private ListPreference mStatusBarWeatherFontStyle;
@@ -68,7 +69,8 @@ public class HeaderFonts extends SettingsPreferenceFragment  implements Preferen
     private ListPreference mStatusBarHeaderFontStyle;	
     private ListPreference mStatusBarDateFontStyle;	
     private ListPreference mStatusBarDetailFontStyle;
-    private ListPreference mStatusBarAlarmFontStyle;	
+    private ListPreference mStatusBarAlarmFontStyle;
+    private ListPreference mNotifsFontStyles;	
 
  @Override
     public void onCreate(Bundle icicle) {
@@ -118,6 +120,12 @@ public class HeaderFonts extends SettingsPreferenceFragment  implements Preferen
             mStatusBarAlarmFontStyle.setValue(Integer.toString(Settings.System.getIntForUser(resolver,
                     Settings.System.HEADER_ALARM_FONT_STYLE, 0, UserHandle.USER_CURRENT)));
             mStatusBarAlarmFontStyle.setSummary(mStatusBarAlarmFontStyle.getEntry());
+
+            mNotifsFontStyles = (ListPreference) findPreference(NOTIFICATION_FONT_STYLES);
+            mNotifsFontStyles.setOnPreferenceChangeListener(this);
+            mNotifsFontStyles.setValue(Integer.toString(Settings.System.getInt(resolver,
+                    Settings.System.NOTIFICATION_FONT_STYLES, 0)));
+            mNotifsFontStyles.setSummary(mNotifsFontStyles.getEntry());
 
 }
 
@@ -178,6 +186,13 @@ public class HeaderFonts extends SettingsPreferenceFragment  implements Preferen
                 Settings.System.putIntForUser(resolver,
                         Settings.System.HEADER_ALARM_FONT_STYLE, val, UserHandle.USER_CURRENT);
                 mStatusBarAlarmFontStyle.setSummary(mStatusBarAlarmFontStyle.getEntries()[index]);
+                return true;
+        } else if (preference == mNotifsFontStyles) {
+                int val = Integer.parseInt((String)  newValue);
+                int index = mNotifsFontStyles.findIndexOfValue((String)  newValue);
+                Settings.System.putIntForUser(resolver,
+                        Settings.System.NOTIFICATION_FONT_STYLES, val, UserHandle.USER_CURRENT);
+                mNotifsFontStyles.setSummary(mNotifsFontStyles.getEntries()[index]);
                 return true;
 	 }
 	return false;

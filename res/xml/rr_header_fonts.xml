@@ -20,7 +20,7 @@
     android:title="@string/notification_panel_title">
     
 <PreferenceCategory
-        android:title="@string/notifications_fonts" >
+        android:title="@string/notifications_header_fonts" >
 
   	<ListPreference
         android:key="header_clock_font_style"
@@ -59,8 +59,17 @@
         android:entryValues="@array/status_bar_weather_font_style_values"
         android:title="@string/status_bar_header_alarm_style_title" />
 
-	   </PreferenceCategory>
+</PreferenceCategory>
 
+<PreferenceCategory
+        android:title="@string/notifications_fonts" >
+
+    <ListPreference
+        android:key="notification_font_styles"
+        android:entries="@array/status_bar_weather_font_style_entries"
+        android:entryValues="@array/status_bar_weather_font_style_values"
+        android:title="@string/notifications_fonts" />
+</PreferenceCategory>
 
 
 </PreferenceScreen>

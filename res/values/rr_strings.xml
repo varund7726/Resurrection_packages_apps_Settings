@@ -131,7 +131,7 @@
 	
 	
 	<string name="header_cat">Notification Header</string>
-	<string name="rr_header_fonts">Notification Header Fonts</string>
+	<string name="rr_header_fonts">Notifications &amp; Header Fonts</string>
 	<string name="rr_header_colors">Notification Header Colors</string>
 	<string name="rr_custom_header_options">Custom headers</string>	
 	<string name="header_ui">Header Interface</string>	
@@ -1790,7 +1790,7 @@
 	<!-- Notification Header Customizations -->
 	<string name="notification_customizations">Notification Header </string>	
 	<string name="notification_panel_title">Notification Header</string>
-	<string name="notifications_fonts">Fonts</string>	
+	<string name="notifications_header_fonts">Header Fonts</string>	
 	<string name="notifications_header">Header Tweaks </string>	
 	<string name="notifications_items">Notification Header Items</string>
 	<string name="hide_panel_items_title">Notification Panel Icons </string>
@@ -1816,6 +1816,9 @@
 	<string name="panel_settings_sum">Show / Hide Settings Icon In Header</string>	
 	<string name="hide_panel_alarm_sum">Show / Hide Next Alarm In Header</string>
 	<string name="notifications_misc">Misc</string>
+
+	<string name="notifications_fonts">Notifications Fonts</string>	
+
 
         <!-- Header text shadow and color -->
         <string name="status_bar_custom_header_text_shadow_title">Header text shadow</string>
