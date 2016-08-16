@@ -132,7 +132,7 @@ public class VolumeDialog extends SettingsPreferenceFragment implements
             prefs.removeAll();
         }
 
-        addPreferencesFromResource(R.xml.notification_colors);
+        addPreferencesFromResource(R.xml.rr_volume_dialog);
         mResolver = getActivity().getContentResolver();
 
         int intColor;
@@ -509,7 +509,7 @@ public class VolumeDialog extends SettingsPreferenceFragment implements
                              new ArrayList<SearchIndexableResource>();
  
                      SearchIndexableResource sir = new SearchIndexableResource(context);
-                    sir.xmlResId = R.xml.notification_colors;
+                    sir.xmlResId = R.xml.rr_volume_dialog;
                      result.add(sir);
  
                      return result;
