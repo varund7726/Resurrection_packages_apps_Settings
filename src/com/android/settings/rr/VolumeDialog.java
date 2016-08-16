@@ -106,9 +106,6 @@ public class VolumeDialog extends SettingsPreferenceFragment implements
     private ColorPickerPreference mCenterColor;
     private ColorPickerPreference mEndColor;
     private ListPreference mGradientOrientation;
-    private ListPreference mQSPanelLogo;
-    private ColorPickerPreference mQSPanelLogoColor;
-    private SeekBarPreferenceCham mQSPanelLogoAlpha;
     private ColorPickerPreference mSliderColor;
     private ColorPickerPreference mSliderInactiveColor;
     private ColorPickerPreference mSliderIconColor;

@@ -47,6 +47,8 @@ import android.view.KeyCharacterMap;
 import android.view.KeyEvent;
 import android.view.WindowManagerGlobal;
 
+import com.android.settings.rr.SeekBarPreference;
+import com.android.settings.rr.SeekBarPreferenceCham;
 import com.android.settings.cyanogenmod.ButtonBacklightBrightness;
 import com.android.settings.R;
 import com.android.settings.search.BaseSearchIndexProvider;
@@ -90,6 +92,8 @@ public class ButtonSettings extends SettingsPreferenceFragment implements
     private static final String KEY_VOLUME_MUSIC_CONTROLS = "volbtn_music_controls";
     private static final String KEY_VOLUME_CONTROL_RING_STREAM = "volume_keys_control_ring_stream";
     private static final String ADVANCED_REBOOT_KEY = "advanced_reboot";
+    private static final String PREF_TRANSPARENT_POWER_MENU = "transparent_power_menu";
+    private static final String PREF_TRANSPARENT_POWER_DIALOG_DIM = "transparent_power_dialog_dim";
 
     private static final String KEY_VOLUME_ANSWER_CALL = "volume_answer_call";
     private static final String KEY_CAMERA_DOUBLE_TAP_POWER_GESTURE
@@ -161,6 +165,8 @@ public class ButtonSettings extends SettingsPreferenceFragment implements
     private SwitchPreference mDisableNavigationKeys;
     private SwitchPreference mEnableHwKeys;	
     private SwitchPreference mAdvancedReboot;
+    private SeekBarPreferenceCham mPowerMenuAlpha;
+    private SeekBarPreferenceCham mPowerDialogDim;
 
     private Handler mHandler;
 
@@ -233,6 +239,22 @@ public class ButtonSettings extends SettingsPreferenceFragment implements
         mAdvancedReboot.setChecked(CMSettings.Secure.getIntForUser(resolver,
             CMSettings.Secure.ADVANCED_REBOOT, 1, UserHandle.USER_CURRENT) == 1);
         mAdvancedReboot.setOnPreferenceChangeListener(this);
+
+            // Power menu alpha
+            mPowerMenuAlpha =
+                    (SeekBarPreferenceCham) findPreference(PREF_TRANSPARENT_POWER_MENU);
+            int powerMenuAlpha = Settings.System.getInt(mResolver,
+                    Settings.System.TRANSPARENT_POWER_MENU, 100);
+            mPowerMenuAlpha.setValue(powerMenuAlpha / 1);
+            mPowerMenuAlpha.setOnPreferenceChangeListener(this);
+
+	    // Power/reboot dialog dim
+            mPowerDialogDim =
+                    (SeekBarPreferenceCham) findPreference(PREF_TRANSPARENT_POWER_DIALOG_DIM);
+            int powerDialogDim = Settings.System.getInt(mResolver,
+                    Settings.System.TRANSPARENT_POWER_DIALOG_DIM, 50);
+            mPowerDialogDim.setValue(powerDialogDim / 1);
+            mPowerDialogDim.setOnPreferenceChangeListener(this);
 
     
             // Enable/disable hw keys
@@ -498,6 +520,16 @@ public class ButtonSettings extends SettingsPreferenceFragment implements
             handleActionListChange(mHomeLongPressAction, newValue,
                     CMSettings.System.KEY_HOME_LONG_PRESS_ACTION);
             return true;
+	}  else if (preference == mPowerMenuAlpha) {
+		int alpha = (Integer) newValue;
+                Settings.System.putInt(mResolver,
+                        Settings.System.TRANSPARENT_POWER_MENU, alpha * 1);
+                return true;
+	}  else if (preference == mPowerDialogDim) {
+		int alpha = (Integer) newValue;
+                Settings.System.putInt(mResolver,
+                        Settings.System.TRANSPARENT_POWER_DIALOG_DIM, alpha * 1);
+                return true;
         }  else if (preference == mEnableHwKeys) {
             boolean hWkeysValue = (Boolean) newValue;
             Settings.System.putInt(getActivity().getApplicationContext().getContentResolver(),
