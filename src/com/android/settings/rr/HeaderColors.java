@@ -82,7 +82,7 @@ public class HeaderColors extends SettingsPreferenceFragment  implements Prefere
         PreferenceScreen prefSet = getPreferenceScreen();
         final ContentResolver resolver = getActivity().getContentResolver();
 
-   	int intColor;
+   	    int intColor;
         String hexColor;
 
         mHeaderCLockColor = (ColorPickerPreference) findPreference(HEADER_CLOCK_COLOR);
