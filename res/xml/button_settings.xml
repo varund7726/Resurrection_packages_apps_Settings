@@ -297,6 +297,12 @@
             android:title="@string/volume_steps_fragment_title"
             android:summary="@string/volume_steps_summary" />
 
+        <PreferenceScreen
+            android:id="@+id/volume_dialog"
+            android:title="@string/volume_dialog_title"
+            android:summary="@string/volume_dialog_summary"
+            android:fragment="com.android.settings.rr.VolumeDialog" />
+
     </PreferenceCategory>
 
 </PreferenceScreen>
