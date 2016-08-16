@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (C) 2016 RR:
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+-->
+
+<PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:settings="http://schemas.android.com/apk/res/com.android.settings"	
+    android:title="@string/notification_color_settings_title">
+
+
+    <PreferenceCategory
+        android:key="notification_cat_volume"
+        android:title="@string/notification_cat_volume">
+
+     <com.android.settings.cyanogenmod.SystemSettingSwitchPreference
+            android:key="volume_dialog_color_switch"
+            android:title="@string/volume_dialog_color_switch_title"
+            android:defaultValue="false"/>
+
+        <SwitchPreference
+            android:key="volume_dialog_background_gradient_use_center_color"
+            android:title="@string/background_gradient_use_center_color_title"
+            android:summary="@string/background_gradient_use_center_color_summary"
+	    android:dependency="volume_dialog_color_switch" />
+
+        <ListPreference
+            android:key="volume_dialog_background_gradient_orientation"
+            android:title="@string/background_gradient_orientation_title"
+            android:dialogTitle="@string/background_gradient_orientation_dlg_title"
+            android:entries="@array/background_gradient_orientation_entries"
+            android:entryValues="@array/background_gradient_orientation_values" 
+	    android:dependency="volume_dialog_color_switch" />
+
+        <net.margaritov.preference.colorpicker.ColorPickerPreference
+            android:key="volume_dialog_background_color_start"
+            android:title="@string/color_title"
+            android:defaultValue="0xff000000"
+	    android:dependency="volume_dialog_color_switch"/>
+
+         <net.margaritov.preference.colorpicker.ColorPickerPreference
+            android:key="volume_dialog_background_color_center"
+            android:title="@string/background_center_color_title"
+            android:defaultValue="0xff000000"
+	    android:dependency="volume_dialog_background_gradient_use_center_color"/>
+
+         <net.margaritov.preference.colorpicker.ColorPickerPreference
+            android:key="volume_dialog_background_color_end"
+            android:title="@string/background_end_color_title"
+            android:defaultValue="0xff000000" 
+	    android:dependency="volume_dialog_color_switch" />
+
+         <net.margaritov.preference.colorpicker.ColorPickerPreference
+            android:key="volume_dialog_slider_icon_color"
+            android:title="@string/volume_dialog_slider_icon_color_title"
+            android:defaultValue="0xffffffff"
+	    android:dependency="volume_dialog_color_switch"/>
+
+         <net.margaritov.preference.colorpicker.ColorPickerPreference
+            android:key="volume_dialog_slider_color"
+            android:title="@string/volume_dialog_slider_color_title"
+            android:defaultValue="0xffffffff" 
+	    android:dependency="volume_dialog_color_switch" />
+
+         <net.margaritov.preference.colorpicker.ColorPickerPreference
+            android:key="volume_dialog_slider_inactive_color"
+            android:title="@string/volume_dialog_slider_inactive_color_title"
+            android:defaultValue="0xff009688" 
+	    android:dependency="volume_dialog_color_switch" />
+
+         <net.margaritov.preference.colorpicker.ColorPickerPreference
+            android:key="volume_dialog_expand_button_color"
+            android:title="@string/volume_dialog_expand_button_color_title"
+            android:defaultValue="0xffffffff" 
+	    android:dependency="volume_dialog_color_switch" />
+
+    
+    <ListPreference
+        android:key="volume_dialog_stroke"
+        android:title="@string/volume_dialog_stroke_title"
+        android:dialogTitle="@string/volume_dialog_stroke_title"
+        android:entries="@array/volume_dialog_stroke_entries"
+        android:entryValues="@array/volume_dialog_stroke_values"
+        android:defaultValue="0" />
+
+    <net.margaritov.preference.colorpicker.ColorPickerPreference
+        android:key="volume_dialog_stroke_color"
+        android:title="@string/volume_dialog_stroke_color_title"
+        android:defaultValue="0xffffffff" />
+
+    <com.android.settings.rr.SeekBarPreferenceCham
+        android:key="volume_dialog_stroke_thickness"
+        android:title="@string/volume_dialog_stroke_thickness_title"
+        android:max="25"
+        settings:min="1"
+        settings:unitsLeft=""
+        settings:unitsRight="px"
+        android:persistent="false" />
+
+    <com.android.settings.rr.SeekBarPreferenceCham
+        android:key="volume_dialog_corner_radius"
+        android:title="@string/volume_dialog_corner_radius_title"
+        android:max="50"
+        settings:min="0"
+        settings:unitsLeft=""
+        settings:unitsRight="px"
+        android:persistent="false" />
+    
+    
+   <com.android.settings.rr.SeekBarPreferenceCham
+        android:key="transparent_volume_dialog"
+        android:title="@string/volume_dialog_transparency"
+        android:max="255"
+        settings:min="0"
+        settings:unitsLeft=""
+        settings:unitsRight=""
+        android:persistent="false" />
+   
+   <com.android.settings.rr.SeekBarPreferenceCham
+         android:key="volume_dialog_dash_width"
+         android:title="@string/volume_dialog_dash_width_title"
+         android:max="50"
+         settings:min="0"
+         settings:unitsLeft=""
+         settings:unitsRight="px"
+         android:persistent="false" />
+ 
+   <com.android.settings.rr.SeekBarPreferenceCham
+         android:key="volume_dialog_dash_gap"
+         android:title="@string/volume_dialog_dash_gap_title"
+         android:max="50"
+         settings:min="1"
+         settings:unitsLeft=""
+         settings:unitsRight="px"
+         android:persistent="false" />
+   
+      </PreferenceCategory>
+    
+
+</PreferenceScreen>

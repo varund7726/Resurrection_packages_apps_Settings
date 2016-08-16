@@ -93,7 +93,7 @@
 
          <net.margaritov.preference.colorpicker.ColorPickerPreference
             android:key="notification_clear_all_icon_color"
-            android:title="@string/notification_clear_all_icon_color_title"
+            android:title="@string/notification_drawer_clear_all_icon_color_title"
             android:defaultValue="0xffffffff" />
 
 	</PreferenceCategory>

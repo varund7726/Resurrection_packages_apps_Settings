@@ -43,7 +43,7 @@ import com.android.settings.SettingsPreferenceFragment;
 
 import net.margaritov.preference.colorpicker.ColorPickerPreference;
 
-public class NotificationColorSettings extends SettingsPreferenceFragment implements
+public class NotificationColors extends SettingsPreferenceFragment implements
         Preference.OnPreferenceChangeListener {
 
     private static final String PREF_CAT_COLORS =
