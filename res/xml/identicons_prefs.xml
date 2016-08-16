@@ -24,7 +24,7 @@
         android:summary="@string/identicons_enabled_summary"
         android:defaultValue="false" />
 
-    <com.android.settings.vrtoxin.identicons.ImageListPreference
+    <com.android.settings.rr.identicons.ImageListPreference
         android:key="identicons_style"
         android:title="@string/identicons_style_title"
         android:summary="@string/identicons_style_summary"

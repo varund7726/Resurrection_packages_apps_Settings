@@ -120,6 +120,6 @@ public class IdenticonsSettings extends SettingsPreferenceFragment implements
 
     @Override
     protected int getMetricsCategory() {
-        return MetricsLogger.VRTOXIN_SHIT;
+        return MetricsLogger.DIRTYTWEAKS;
     }
 }
