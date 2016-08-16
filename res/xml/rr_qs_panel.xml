@@ -84,6 +84,12 @@
 	    android:summary="@string/qs_colors_summary"	
             android:fragment="com.android.settings.rr.QsColors" />
 
+        <ListPreference
+            android:key="qs_font_styles"
+            android:entries="@array/status_bar_weather_font_style_entries"
+            android:entryValues="@array/status_bar_weather_font_style_entries"
+            android:title="@string/status_bar_weather_font_style_title" />
+
 
     <SwitchPreference
         android:key="block_on_secure_keyguard"

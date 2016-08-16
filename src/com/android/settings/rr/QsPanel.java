@@ -52,6 +52,7 @@ public class QsPanel extends SettingsPreferenceFragment  implements Preference.O
  private static final String PREF_TILE_ANIM_DURATION = "qs_tile_animation_duration";
  private static final String PREF_TILE_ANIM_INTERPOLATOR = "qs_tile_animation_interpolator";
  private static final String QS_TASK_ANIMATION = "qs_task_animation";
+ private static final String QS_FONT_STYLES = "qs_font_styles";
 
     private SwitchPreference mBlockOnSecureKeyguard;
     private ListPreference mQuickPulldown;
@@ -61,6 +62,7 @@ public class QsPanel extends SettingsPreferenceFragment  implements Preference.O
     private ListPreference mTileAnimationDuration;
     private ListPreference mTileAnimationInterpolator;
     private ListPreference mAnimation;
+    private ListPreference mQSFontStyle;
     	
     private static final int MY_USER_ID = UserHandle.myUserId();
     @Override
@@ -145,6 +147,12 @@ public class QsPanel extends SettingsPreferenceFragment  implements Preference.O
         mAnimation.setSummary(mAnimation.getEntry());
         mAnimation.setOnPreferenceChangeListener(this);
 
+       mQSFontStyle = (ListPreference) findPreference(QS_FONT_STYLES);
+        mQSFontStyle.setOnPreferenceChangeListener(this);
+        mQSFontStyle.setValue(Integer.toString(Settings.System.getInt(getActivity()
+                .getContentResolver(), Settings.System.QS_FONT_STYLES, 0)));
+        mQSFontStyle.setSummary(mQSFontStyle.getEntry());
+
     }
 
     @Override
@@ -216,6 +224,13 @@ public class QsPanel extends SettingsPreferenceFragment  implements Preference.O
                     Integer.valueOf((String) newValue));
             mAnimation.setValue(String.valueOf(newValue));
             mAnimation.setSummary(mAnimation.getEntry());
+            return true;
+        } else if (preference == mQSFontStyle) {
+            int val = Integer.parseInt((String) newValue);
+            int index = mQSFontStyle.findIndexOfValue((String) newValue);
+            Settings.System.putInt(getActivity().getContentResolver(),
+                    Settings.System.QS_FONT_STYLES, val);
+            mQSFontStyle.setSummary(mQSFontStyle.getEntries()[index]);
             return true;
 	  }
          return false;
