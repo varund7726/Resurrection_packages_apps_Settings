@@ -132,6 +132,13 @@
             android:title="@string/system_app_remover"
             android:fragment="com.android.settings.rr.fragments.SystemappRemover" />
 
+    <!-- Identicons -->
+    <PreferenceScreen
+        android:id="@+id/identicons"
+        android:title="@string/identicons_title"
+        android:summary="@string/identicons_summary"
+        android:fragment="com.android.settings.rr.identicons.IdenticonsSettings" />
+
 
         <!-- Advanced options -->
         <PreferenceScreen

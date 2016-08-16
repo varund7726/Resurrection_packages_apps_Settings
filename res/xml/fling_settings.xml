@@ -169,7 +169,7 @@
             android:defaultValue="0xffffff"
             android:dependency="eos_fling_trails_enable" />
 
-        <com.android.settings.widget.SeekBarPreferenceCham
+        <com.android.settings.rr.SeekBarPreferenceCham
             android:key="eos_fling_trails_width"
             android:title="@string/fling_trails_width_title"
             settings:defaultVal="15"

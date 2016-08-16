@@ -2868,6 +2868,12 @@
                 <action android:name="android.intent.action.SIM_STATE_CHANGED"></action>
             </intent-filter>
         </receiver>
+        
+        <service android:name=".rr.identicons.IdenticonCreationService"
+                 android:exported="false" />
+
+        <service android:name=".rr.identicons.IdenticonRemovalService"
+                 android:exported="false" />
 
         <provider
             android:name="android.support.v4.content.FileProvider"
