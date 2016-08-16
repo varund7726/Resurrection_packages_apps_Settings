@@ -55,22 +55,6 @@ public class NotificationColorSettings extends SettingsPreferenceFragment implem
 
     private static final String PREF_CAT_COLORS =
             "notification_cat_colors";
-    private static final String PREF_MEDIA_BG_MODE =
-            "notification_media_bg_mode";
-    private static final String PREF_APP_ICON_BG_MODE =
-            "notification_app_icon_bg_mode";
-    private static final String PREF_APP_ICON_COLOR_MODE =
-            "notification_app_icon_color_mode";
-    private static final String PREF_BG_COLOR =
-            "notification_bg_color";
-    private static final String PREF_BG_GUTS_COLOR =
-            "notification_bg_guts_color";
-    private static final String PREF_APP_ICON_BG_COLOR =
-            "notification_app_icon_bg_color";
-    private static final String PREF_ICON_COLOR =
-            "notification_icon_color";
-    private static final String PREF_CLEAR_ALL_ICON_COLOR =
-            "notification_drawer_clear_all_icon_color";
     private static final String PREF_TRANSPARENT_VOLUME_DIALOG = "transparent_volume_dialog";
     private static final String PREF_TRANSPARENT_POWER_MENU = "transparent_power_menu";
     private static final String PREF_TRANSPARENT_POWER_DIALOG_DIM = "transparent_power_dialog_dim";
@@ -84,7 +68,6 @@ public class NotificationColorSettings extends SettingsPreferenceFragment implem
     private static final String PREF_QS_PANEL_LOGO = "qs_panel_logo";
     private static final String PREF_QS_PANEL_LOGO_COLOR = "qs_panel_logo_color";
     private static final String PREF_QS_PANEL_LOGO_ALPHA = "qs_panel_logo_alpha";
-    private static final String PREF_NOTIFICATION_ALPHA = "notification_alpha";
 
     private static final String PREF_GRADIENT_ORIENTATION = "volume_dialog_background_gradient_orientation";
     private static final String PREF_USE_CENTER_COLOR = "volume_dialog_background_gradient_use_center_color";
@@ -120,13 +103,6 @@ public class NotificationColorSettings extends SettingsPreferenceFragment implem
     private static final int ACCENT    = 1;
     private static final int CUSTOM = 2;
 
-    private ListPreference mMediaBgMode;
-    private ListPreference mAppIconBgMode;
-    private ListPreference mAppIconColorMode;
-    private ColorPickerPreference mBgColor;
-    private ColorPickerPreference mBgGutsColor;
-    private ColorPickerPreference mAppIconBgColor;
-    private ColorPickerPreference mClearAllIconColor;	
     private SeekBarPreferenceCham mVolumeDialogAlpha;	
     private SeekBarPreferenceCham mPowerMenuAlpha;
     private SeekBarPreferenceCham mPowerDialogDim;
@@ -174,45 +150,6 @@ public class NotificationColorSettings extends SettingsPreferenceFragment implem
         int intColor;
         String hexColor;
 
-	    mMediaBgMode = (ListPreference) findPreference(PREF_MEDIA_BG_MODE);
-	    int mediaBgMode = Settings.System.getInt(mResolver,
-            Settings.System.NOTIFICATION_MEDIA_BG_MODE, 0);
-	    mMediaBgMode.setValue(String.valueOf(mediaBgMode));
-	    mMediaBgMode.setSummary(mMediaBgMode.getEntry());
-	    mMediaBgMode.setOnPreferenceChangeListener(this);
-
-	    mBgColor = (ColorPickerPreference) findPreference(PREF_BG_COLOR);
-	    intColor = Settings.System.getInt(mResolver,
-            Settings.System.NOTIFICATION_BG_COLOR, WHITE); 
-	    mBgColor.setNewPreviewColor(intColor);
-	    hexColor = String.format("#%08x", (0xffffffff & intColor));
-	    mBgColor.setSummary(hexColor);
-	    mBgColor.setResetColors(RR_BLUE_GREY, RR_BLUE_GREY);
-	    mBgColor.setOnPreferenceChangeListener(this);
-
-	    mBgGutsColor =
-                (ColorPickerPreference) findPreference(PREF_BG_GUTS_COLOR);
-	    intColor = Settings.System.getInt(mResolver,
-                Settings.System.NOTIFICATION_GUTS_BG_COLOR, SYSTEMUI_SECONDARY); 
-	    mBgGutsColor.setNewPreviewColor(intColor);
-	    hexColor = String.format("#%08x", (0xffffffff & intColor));
-	    mBgGutsColor.setSummary(hexColor);
-	    mBgGutsColor.setResetColors(SYSTEMUI_SECONDARY, SYSTEMUI_SECONDARY);
-	    mBgGutsColor.setOnPreferenceChangeListener(this);
-
-	    PreferenceCategory colorCat =
-                (PreferenceCategory) findPreference(PREF_CAT_COLORS);
-
-	    mClearAllIconColor =
-                (ColorPickerPreference) findPreference(PREF_CLEAR_ALL_ICON_COLOR);
-	    intColor = Settings.System.getInt(mResolver,
-                Settings.System.NOTIFICATION_DRAWER_CLEAR_ALL_ICON_COLOR, WHITE); 
-	    mClearAllIconColor.setNewPreviewColor(intColor);
-	    hexColor = String.format("#%08x", (0xffffffff & intColor));
-	    mClearAllIconColor.setSummary(hexColor);
-	    mClearAllIconColor.setResetColors(WHITE, HOLO_BLUE_LIGHT);
-	    mClearAllIconColor.setOnPreferenceChangeListener(this);
-
 	    // Volume dialog alpha
             mVolumeDialogAlpha =
                     (SeekBarPreferenceCham) findPreference(PREF_TRANSPARENT_VOLUME_DIALOG);
@@ -228,14 +165,6 @@ public class NotificationColorSettings extends SettingsPreferenceFragment implem
                     Settings.System.TRANSPARENT_POWER_MENU, 100);
             mPowerMenuAlpha.setValue(powerMenuAlpha / 1);
             mPowerMenuAlpha.setOnPreferenceChangeListener(this);
-
-            // Notifications alpha
-            mNotificationsAlpha =
-                    (SeekBarPreferenceCham) findPreference(PREF_NOTIFICATION_ALPHA);
-            int notificationsAlpha = Settings.System.getInt(mResolver,
-                    Settings.System.NOTIFICATION_ALPHA, 255);
-            mNotificationsAlpha.setValue(notificationsAlpha / 1);
-            mNotificationsAlpha.setOnPreferenceChangeListener(this);
 
 	    // Power/reboot dialog dim
             mPowerDialogDim =
@@ -438,61 +367,8 @@ public class NotificationColorSettings extends SettingsPreferenceFragment implem
         String hex;
         int intHex;
 
-        if (preference == mMediaBgMode) {
-            int mediaBgMode = Integer.valueOf((String) newValue);
-            int index = mMediaBgMode.findIndexOfValue((String) newValue);
-            Settings.System.putInt(mResolver,
-                Settings.System.NOTIFICATION_MEDIA_BG_MODE, mediaBgMode);
-            preference.setSummary(mMediaBgMode.getEntries()[index]);
-            return true;
-        } else if (preference == mAppIconBgMode) {
-            int appIconBgMode = Integer.valueOf((String) newValue);
-            int index = mAppIconBgMode.findIndexOfValue((String) newValue);
-            Settings.System.putInt(mResolver,
-                Settings.System.NOTIFICATION_APP_ICON_BG_MODE, appIconBgMode);
-            preference.setSummary(mAppIconBgMode.getEntries()[index]);
-            refreshSettings();
-            return true;
-        } else if (preference == mAppIconColorMode) {
-            int appIconColorMode = Integer.valueOf((String) newValue);
-            int index = mAppIconColorMode.findIndexOfValue((String) newValue);
-            Settings.System.putInt(mResolver,
-                Settings.System.NOTIFICATION_APP_ICON_COLOR_MODE, appIconColorMode);
-            preference.setSummary(mAppIconColorMode.getEntries()[index]);
-            return true;
-        } else if (preference == mBgColor) {
-            hex = ColorPickerPreference.convertToARGB(
-                Integer.valueOf(String.valueOf(newValue)));
-            intHex = ColorPickerPreference.convertToColorInt(hex);
-            Settings.System.putInt(mResolver,
-                Settings.System.NOTIFICATION_BG_COLOR, intHex);
-            preference.setSummary(hex);
-            return true;
-        } else if (preference == mBgGutsColor) {
-            hex = ColorPickerPreference.convertToARGB(
-                Integer.valueOf(String.valueOf(newValue)));
-            intHex = ColorPickerPreference.convertToColorInt(hex);
-            Settings.System.putInt(mResolver,
-                Settings.System.NOTIFICATION_GUTS_BG_COLOR, intHex);
-            preference.setSummary(hex);
-            return true;
-        } else if (preference == mAppIconBgColor) {
-            hex = ColorPickerPreference.convertToARGB(
-                Integer.valueOf(String.valueOf(newValue)));
-            intHex = ColorPickerPreference.convertToColorInt(hex);
-            Settings.System.putInt(mResolver,
-                Settings.System.NOTIFICATION_APP_ICON_BG_COLOR, intHex);
-            preference.setSummary(hex);
-            return true;
-        } else if (preference == mClearAllIconColor) {
-            hex = ColorPickerPreference.convertToARGB(
-                Integer.valueOf(String.valueOf(newValue)));
-            intHex = ColorPickerPreference.convertToColorInt(hex);
-            Settings.System.putInt(mResolver,
-                Settings.System.NOTIFICATION_DRAWER_CLEAR_ALL_ICON_COLOR, intHex);
-            preference.setSummary(hex);
-            return true;
-        } else if (preference == mVolumeDialogAlpha) {
+
+        if (preference == mVolumeDialogAlpha) {
                 int alpha = (Integer) newValue;
                 Settings.System.putInt(mResolver,
                         Settings.System.TRANSPARENT_VOLUME_DIALOG, alpha * 1);
@@ -501,11 +377,6 @@ public class NotificationColorSettings extends SettingsPreferenceFragment implem
 		int alpha = (Integer) newValue;
                 Settings.System.putInt(mResolver,
                         Settings.System.TRANSPARENT_POWER_MENU, alpha * 1);
-                return true;
-        } else if (preference == mNotificationsAlpha) {
-                int alpha = (Integer) newValue;
-                Settings.System.putInt(mResolver,
-                        Settings.System.NOTIFICATION_ALPHA, alpha * 1);
                 return true;
 	}  else if (preference == mPowerDialogDim) {
 		int alpha = (Integer) newValue;
@@ -708,58 +579,12 @@ public class NotificationColorSettings extends SettingsPreferenceFragment implem
                     .setNeutralButton(R.string.dlg_reset_android,
                         new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
-                            Settings.System.putInt(getOwner().mResolver,
-                                    Settings.System.NOTIFICATION_MEDIA_BG_MODE, 0);
-                            Settings.System.putInt(getOwner().mResolver,
-                                    Settings.System.NOTIFICATION_APP_ICON_BG_MODE, 0);
-                            Settings.System.putInt(getOwner().mResolver,
-                                    Settings.System.NOTIFICATION_APP_ICON_COLOR_MODE, 0);
-                            Settings.System.putInt(getOwner().mResolver,
-                                    Settings.System.NOTIFICATION_BG_COLOR,
-                                    WHITE);
-                            Settings.System.putInt(getOwner().mResolver,
-                                    Settings.System.NOTIFICATION_GUTS_BG_COLOR,
-                                    SYSTEMUI_SECONDARY);
-                            Settings.System.putInt(getOwner().mResolver,
-                                    Settings.System.NOTIFICATION_APP_ICON_BG_COLOR,
-                                    TRANSLUCENT_WHITE);
-                            Settings.System.putInt(getOwner().mResolver,
-                                    Settings.System.NOTIFICATION_TEXT_COLOR, BLACK);
-                            Settings.System.putInt(getOwner().mResolver,
-                                    Settings.System.NOTIFICATION_ICON_COLOR, BLACK);
-                            Settings.System.putInt(getOwner().mResolver,
-                                    Settings.System.NOTIFICATION_DRAWER_CLEAR_ALL_ICON_COLOR,
-                                    WHITE);
                             getOwner().refreshSettings();
                         }
                     })
                     .setPositiveButton(R.string.dlg_reset_rr,
                         new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
-                            Settings.System.putInt(getOwner().mResolver,
-                                    Settings.System.NOTIFICATION_MEDIA_BG_MODE, 1);
-                            Settings.System.putInt(getOwner().mResolver,
-                                    Settings.System.NOTIFICATION_APP_ICON_BG_MODE, 1);
-                            Settings.System.putInt(getOwner().mResolver,
-                                    Settings.System.NOTIFICATION_APP_ICON_COLOR_MODE, 1);
-                            Settings.System.putInt(getOwner().mResolver,
-                                    Settings.System.NOTIFICATION_BG_COLOR,
-                                    WHITE);
-                            Settings.System.putInt(getOwner().mResolver,
-                                    Settings.System.NOTIFICATION_GUTS_BG_COLOR,
-                                    SYSTEMUI_SECONDARY);
-                            Settings.System.putInt(getOwner().mResolver,
-                                    Settings.System.NOTIFICATION_APP_ICON_BG_COLOR,
-                                    TRANSLUCENT_HOLO_BLUE_LIGHT);
-                            Settings.System.putInt(getOwner().mResolver,
-                                    Settings.System.NOTIFICATION_TEXT_COLOR,
-                                    HOLO_BLUE_LIGHT);
-                            Settings.System.putInt(getOwner().mResolver,
-                                    Settings.System.NOTIFICATION_ICON_COLOR,
-                                    HOLO_BLUE_LIGHT);
-                            Settings.System.putInt(getOwner().mResolver,
-                                    Settings.System.NOTIFICATION_DRAWER_CLEAR_ALL_ICON_COLOR,
-                                    HOLO_BLUE_LIGHT);
                             getOwner().refreshSettings();
                         }
                     })
