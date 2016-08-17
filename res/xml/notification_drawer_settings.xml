@@ -53,8 +53,9 @@
 
     <!-- Notification colors -->
     <PreferenceScreen
-            android:id="@+id/notification_colors"
-            android:title="@string/cat_colors_title"
-            android:fragment="com.android.settings.rr.NotificationColorSettings" />
+        android:id="@+id/notifications_color"
+        android:title="@string/notification_color_settings_title"
+        android:summary="@string/custom_notification_color_settings_summary"
+        android:fragment="com.android.settings.rr.NotificationsColor" />
  </PreferenceCategory>
 </PreferenceScreen>

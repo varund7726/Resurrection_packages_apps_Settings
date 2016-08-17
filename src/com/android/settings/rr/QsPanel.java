@@ -53,6 +53,11 @@ public class QsPanel extends SettingsPreferenceFragment  implements Preference.O
  private static final String PREF_TILE_ANIM_INTERPOLATOR = "qs_tile_animation_interpolator";
  private static final String QS_TASK_ANIMATION = "qs_task_animation";
  private static final String QS_FONT_STYLES = "qs_font_styles";
+ private static final String PREF_QS_PANEL_LOGO = "qs_panel_logo";
+ private static final String PREF_QS_PANEL_LOGO_COLOR = "qs_panel_logo_color";
+ private static final String PREF_QS_PANEL_LOGO_ALPHA = "qs_panel_logo_alpha";
+
+    static final int DEFAULT_QS_PANEL_LOGO_COLOR = 0xFF80CBC4;
 
     private SwitchPreference mBlockOnSecureKeyguard;
     private ListPreference mQuickPulldown;
@@ -63,6 +68,9 @@ public class QsPanel extends SettingsPreferenceFragment  implements Preference.O
     private ListPreference mTileAnimationInterpolator;
     private ListPreference mAnimation;
     private ListPreference mQSFontStyle;
+    private ListPreference mQSPanelLogo;
+    private ColorPickerPreference mQSPanelLogoColor;
+    private SeekBarPreferenceCham mQSPanelLogoAlpha;
     	
     private static final int MY_USER_ID = UserHandle.myUserId();
     @Override
@@ -72,6 +80,9 @@ public class QsPanel extends SettingsPreferenceFragment  implements Preference.O
         PreferenceScreen prefSet = getPreferenceScreen();
         final ContentResolver resolver = getActivity().getContentResolver();
 	final CmLockPatternUtils lockPatternUtils = new CmLockPatternUtils(getActivity());
+
+        int intColor;
+        String hexColor;
 
         Resources res = getResources();
 	mQuickPulldown = (ListPreference) findPreference(STATUS_BAR_QUICK_QS_PULLDOWN);
@@ -153,6 +164,34 @@ public class QsPanel extends SettingsPreferenceFragment  implements Preference.O
         mQSFontStyle.setSummary(mQSFontStyle.getEntry());
         mQSFontStyle.setOnPreferenceChangeListener(this);
 
+            // QS panel RR logo
+             mQSPanelLogo =
+                     (ListPreference) findPreference(PREF_QS_PANEL_LOGO);
+             int qSPanelLogo = Settings.System.getIntForUser(mResolver,
+                             Settings.System.QS_PANEL_LOGO, 0,
+                             UserHandle.USER_CURRENT);
+             mQSPanelLogo.setValue(String.valueOf(qSPanelLogo));
+             mQSPanelLogo.setSummary(mQSPanelLogo.getEntry());
+             mQSPanelLogo.setOnPreferenceChangeListener(this);
+ 
+             // QS panel RR logo color
+             mQSPanelLogoColor =
+                     (ColorPickerPreference) findPreference(PREF_QS_PANEL_LOGO_COLOR);
+             mQSPanelLogoColor.setOnPreferenceChangeListener(this);
+             int qSPanelLogoColor = Settings.System.getInt(mResolver,
+                     Settings.System.QS_PANEL_LOGO_COLOR, DEFAULT_QS_PANEL_LOGO_COLOR);
+             String qSHexLogoColor = String.format("#%08x", (0xFF80CBC4 & qSPanelLogoColor));
+             mQSPanelLogoColor.setSummary(qSHexLogoColor);
+             mQSPanelLogoColor.setNewPreviewColor(qSPanelLogoColor);
+ 
+             // QS panel RR logo alpha
+             mQSPanelLogoAlpha =
+                     (SeekBarPreferenceCham) findPreference(PREF_QS_PANEL_LOGO_ALPHA);
+             int qSPanelLogoAlpha = Settings.System.getInt(mResolver,
+                     Settings.System.QS_PANEL_LOGO_ALPHA, 51);
+             mQSPanelLogoAlpha.setValue(qSPanelLogoAlpha / 1);
+             mQSPanelLogoAlpha.setOnPreferenceChangeListener(this);
+
     }
 
     @Override
@@ -231,6 +270,27 @@ public class QsPanel extends SettingsPreferenceFragment  implements Preference.O
             mQSFontStyle.setValue(String.valueOf(newValue));
             mQSFontStyle.setSummary(mQSFontStyle.getEntry());
             return true;
+         if (preference == mQSPanelLogo) {
+                 int qSPanelLogo = Integer.parseInt((String) newValue);
+                 int index = mQSPanelLogo.findIndexOfValue((String) newValue);
+                 Settings.System.putIntForUser(mResolver, Settings.System.
+                         QS_PANEL_LOGO, qSPanelLogo, UserHandle.USER_CURRENT);
+                 mQSPanelLogo.setSummary(mQSPanelLogo.getEntries()[index]);
+                 QSPanelLogoSettingsDisabler(qSPanelLogo);
+                 return true;
+        } else if (preference == mQSPanelLogoColor) {
+                 hex = ColorPickerPreference.convertToARGB(
+                         Integer.valueOf(String.valueOf(newValue)));
+                 preference.setSummary(hex);
+                 intHex = ColorPickerPreference.convertToColorInt(hex);
+                 Settings.System.putInt(mResolver,
+                         Settings.System.QS_PANEL_LOGO_COLOR, intHex);
+                 return true;
+        } else if (preference == mQSPanelLogoAlpha) {
+                 int val = (Integer) newValue;
+                 Settings.System.putInt(mResolver,
+                        Settings.System.QS_PANEL_LOGO_ALPHA, val * 1);
+                return true;
 	  }
          return false;
 	}
@@ -295,6 +355,19 @@ public class QsPanel extends SettingsPreferenceFragment  implements Preference.O
              }
          }
      }
+
+       private void QSPanelLogoSettingsDisabler(int qSPanelLogo) {
+             if (qSPanelLogo == 0) {
+                 mQSPanelLogoColor.setEnabled(false);
+                 mQSPanelLogoAlpha.setEnabled(false);
+             } else if (qSPanelLogo == 1) {
+                 mQSPanelLogoColor.setEnabled(false);
+                 mQSPanelLogoAlpha.setEnabled(true);
+             } else {
+                 mQSPanelLogoColor.setEnabled(true);
+                 mQSPanelLogoAlpha.setEnabled(true);
+             }
+         }
 
      private int getDefaultNumColums() {
             try {
