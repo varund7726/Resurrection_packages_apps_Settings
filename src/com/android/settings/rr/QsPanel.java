@@ -147,11 +147,11 @@ public class QsPanel extends SettingsPreferenceFragment  implements Preference.O
         mAnimation.setSummary(mAnimation.getEntry());
         mAnimation.setOnPreferenceChangeListener(this);
 
-       mQSFontStyle = (ListPreference) findPreference(QS_FONT_STYLES);
-        mQSFontStyle.setOnPreferenceChangeListener(this);
-        mQSFontStyle.setValue(Integer.toString(Settings.System.getInt(getActivity()
-                .getContentResolver(), Settings.System.QS_FONT_STYLES, 0)));
+        mQSFontStyle = (ListPreference) findPreference(QS_FONT_STYLES);
+        mQSFontStyle.setValue(String.valueOf(Settings.System.getInt(
+                getContentResolver(), Settings.System.QS_FONT_STYLES, 0)));
         mQSFontStyle.setSummary(mQSFontStyle.getEntry());
+        mQSFontStyle.setOnPreferenceChangeListener(this);
 
     }
 
@@ -226,11 +226,11 @@ public class QsPanel extends SettingsPreferenceFragment  implements Preference.O
             mAnimation.setSummary(mAnimation.getEntry());
             return true;
         } else if (preference == mQSFontStyle) {
-            int val = Integer.parseInt((String) newValue);
-            int index = mQSFontStyle.findIndexOfValue((String) newValue);
-            Settings.System.putInt(getActivity().getContentResolver(),
-                    Settings.System.QS_FONT_STYLES, val);
-            mQSFontStyle.setSummary(mQSFontStyle.getEntries()[index]);
+            Settings.System.putInt(getContentResolver(), Settings.System.QS_FONT_STYLES,
+                    Integer.valueOf((String) newValue));
+            mQSFontStyle.setValue(String.valueOf(newValue));
+            mQSFontStyle.setSummary(mQSFontStyle.getEntry());
+            return true;
             return true;
 	  }
          return false;
