@@ -302,8 +302,6 @@ private static final String STROKE_CATEGORY = "stroke_settings";
         mEndColor.setDefaultColors(BLACK, BLACK);
         mEndColor.setOnPreferenceChangeListener(this);
 	   
-	setHasOptionsMenu(true);
-
 }
 
 
@@ -464,73 +462,6 @@ private static final String STROKE_CATEGORY = "stroke_settings";
 	return false;
 	}
 
-
- @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        menu.add(0, MENU_RESET, 0, R.string.reset)
-                .setIcon(R.drawable.ic_settings_reset)
-                .setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case MENU_RESET:
-                resetToDefault();
-                return true;
-            default:
-                return super.onContextItemSelected(item);
-        }
-    }
-
-    private void resetToDefault() {
-        AlertDialog.Builder alertDialog = new AlertDialog.Builder(getActivity());
-        alertDialog.setTitle(R.string.header_colors_reset_title);
-        alertDialog.setMessage(R.string.header_colors_reset_message);
-        alertDialog.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                resetValues();
-            }
-        });
-        alertDialog.setNegativeButton(R.string.cancel, null);
-        alertDialog.create().show();
-    }
-
-    private void resetValues() {
-        Settings.System.putInt(getContentResolver(),
-                Settings.System.QS_HEADER_TEXT_COLOR, DEFAULT);
-        mHeaderTextColor.setNewPreviewColor(DEFAULT);
-        mHeaderTextColor.setSummary(R.string.default_string);
-        Settings.System.putInt(getContentResolver(),
-                Settings.System.QS_HEADER_COLOR, DEFAULT_HEADER_BG);
-        mHeaderColor.setNewPreviewColor(DEFAULT_HEADER_BG);
-        mHeaderColor.setSummary(R.string.default_string);
-        Settings.System.putInt(getContentResolver(),
-                Settings.System.HEADER_CLOCK_COLOR, DEFAULT);
-        mHeaderCLockColor.setNewPreviewColor(DEFAULT);
-        mHeaderCLockColor.setSummary(R.string.default_string);
-        Settings.System.putInt(getContentResolver(),
-                Settings.System.HEADER_DETAIL_COLOR, DEFAULT);
-        mHeaderDetailColor.setNewPreviewColor(DEFAULT);
-        mHeaderDetailColor.setSummary(R.string.default_string);
-        Settings.System.putInt(getContentResolver(),
-                Settings.System.HEADER_WEATHERONE_COLOR, DEFAULT);
-        mHeaderWeatheroneColor.setNewPreviewColor(DEFAULT);
-        mHeaderWeatheroneColor.setSummary(R.string.default_string);
-        Settings.System.putInt(getContentResolver(),
-                Settings.System.HEADER_WEATHERTWO_COLOR, DEFAULT);
-	mHeaderWeathertwoColor.setNewPreviewColor(DEFAULT);
-        mHeaderWeathertwoColor.setSummary(R.string.default_string);
-        Settings.System.putInt(getContentResolver(),
-                Settings.System.HEADER_BATTERY_TEXT_COLOR, DEFAULT);
-        mBatteryColor.setNewPreviewColor(DEFAULT);
-        mBatteryColor.setSummary(R.string.default_string);
-        Settings.System.putInt(getContentResolver(),
-                Settings.System.HEADER_ALARM_TEXT_COLOR, DEFAULT);
-	        mAlarmColor.setNewPreviewColor(DEFAULT);
-        mAlarmColor.setSummary(R.string.default_string);
-
-    }
 
   
             public static final Indexable.SearchIndexProvider SEARCH_INDEX_DATA_PROVIDER =
