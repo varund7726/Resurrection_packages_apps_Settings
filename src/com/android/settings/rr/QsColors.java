@@ -153,15 +153,19 @@ public class QsColors extends SettingsPreferenceFragment  implements Preference.
     private ContentResolver mResolver;
 
 
- @Override
-    public void onCreate(Bundle icicle) {
-        super.onCreate(icicle);
-	refreshSettings();
-	}
-   
-   public void refreshSettings() {
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        refreshSettings();
+    }
+
+    public void refreshSettings() {
+        PreferenceScreen prefs = getPreferenceScreen();
+        if (prefs != null) {
+            prefs.removeAll();
+        }
+
         addPreferencesFromResource(R.xml.rr_qs_colors);
-        PreferenceScreen prefSet = getPreferenceScreen();
 
         final ContentResolver resolver = getActivity().getContentResolver();
 	mResolver = getActivity().getContentResolver();
@@ -249,7 +253,7 @@ public class QsColors extends SettingsPreferenceFragment  implements Preference.
 	int qscolor = Settings.System.getIntForUser(mResolver,
                             Settings.System.QS_COLOR_SWITCH, 0,
                             UserHandle.USER_CURRENT);
-        mQsColorSwitch = (ListPreference) prefSet.findPreference(QS_COLOR_SWITCH);
+        mQsColorSwitch = (ListPreference) prefs.findPreference(QS_COLOR_SWITCH);
         mQsColorSwitch.setValue(String.valueOf(qscolor));
         mQsColorSwitch.setSummary(mQsColorSwitch.getEntry());
         mQsColorSwitch.setOnPreferenceChangeListener(this);
