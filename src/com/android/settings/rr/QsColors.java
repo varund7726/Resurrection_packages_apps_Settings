@@ -58,6 +58,8 @@ import java.util.ArrayList;
 
 public class QsColors extends SettingsPreferenceFragment  implements Preference.OnPreferenceChangeListener ,Indexable{
 
+ private static final String QS_HEADER_TEXT_COLOR = "qs_header_text_color";
+ private static final String QS_HEADER_COLOR = "qs_header_color";
  private static final String QS_TEXT_COLOR = "qs_text_color";
  private static final String QS_ICON_COLOR = "qs_icon_color";
  private static final String QS_BACKGROUND_COLOR = "qs_bg_color";
@@ -74,6 +76,11 @@ public class QsColors extends SettingsPreferenceFragment  implements Preference.
  private static final String BG_COLORS = "qs_bg_colors";
  private static final String RR_COLORS = "rr_qs_bg_colors";
  private static final String GENERAL_COLORS = "rr_qs_bg_colors_general";
+ private static final String PREF_GRADIENT_ORIENTATION_HEADER = "header_background_gradient_orientation";
+ private static final String PREF_USE_CENTER_COLOR_HEADER = "header_background_gradient_use_center_color";
+ private static final String PREF_HEADER_START_COLOR = "header_background_color_start";
+ private static final String PREF_CENTER_COLOR_HEADER = "header_background_color_center";
+ private static final String PREF_HEADER_END_COLOR = "header_background_color_end";
  
  private static final String PREF_QS_STROKE = "qs_stroke";
  private static final String PREF_QS_STROKE_COLOR = "qs_stroke_color";
@@ -82,6 +89,12 @@ public class QsColors extends SettingsPreferenceFragment  implements Preference.
  private static final String PREF_QS_STROKE_DASH_WIDTH = "qs_dash_width";
  private static final String PREF_QS_STROKE_DASH_GAP = "qs_dash_gap";
  private static final String STROKE_CATEGORY = "stroke_settings";
+ private static final String STATUS_BAR_EXPANDED_HEADER_STROKE = "status_bar_expanded_header_stroke";
+ private static final String STATUS_BAR_EXPANDED_HEADER_STROKE_COLOR = "status_bar_expanded_header_stroke_color";
+ private static final String STATUS_BAR_EXPANDED_HEADER_STROKE_THICKNESS = "status_bar_expanded_header_stroke_thickness";
+ private static final String STATUS_BAR_EXPANDED_HEADER_CORNER_RADIUS = "status_bar_expanded_header_corner_radius";
+ private static final String STATUS_BAR_EXPANDED_HEADER_STROKE_DASH_GAP = "status_bar_expanded_header_stroke_dash_gap";
+ private static final String STATUS_BAR_EXPANDED_HEADER_STROKE_DASH_WIDTH = "status_bar_expanded_header_stroke_dash_width";
 
     static final int DEFAULT = 0xffffffff;
     static final int DEFAULT_BG = 0xff263238;
@@ -103,7 +116,8 @@ public class QsColors extends SettingsPreferenceFragment  implements Preference.
     private static final int MENU_RESET = Menu.FIRST;
 	
 
-
+    private ColorPickerPreference mHeaderTextColor;
+    private ColorPickerPreference mHeaderColor;
     private ColorPickerPreference mQsTextColor;
     private ColorPickerPreference mQsIconColor;	
     private ColorPickerPreference mQsBgColor;	
@@ -116,15 +130,28 @@ public class QsColors extends SettingsPreferenceFragment  implements Preference.
     private ColorPickerPreference mStartColor;
     private ColorPickerPreference mCenterColor;
     private ColorPickerPreference mEndColor;
+    private ListPreference mGradientOrientationHeader;
+    private SwitchPreference mHeaderUseCenterColor;
+    private ColorPickerPreference mHeaderStartColor;
+    private ColorPickerPreference mHeaderCenterColor;
+    private ColorPickerPreference mHeaderEndColor;
     private ListPreference mGradientOrientation;
+    
     private ListPreference mQSStroke;
     private ColorPickerPreference mQSStrokeColor;
     private SeekBarPreferenceCham mQSStrokeThickness;
     private SeekBarPreferenceCham mQSCornerRadius;
     private SeekBarPreferenceCham mQSDashWidth;
     private SeekBarPreferenceCham mQSDashGap;
-    private ContentResolver mResolver;
+    private ListPreference mSBEHStroke;
+    private ColorPickerPreference mSBEHStrokeColor;
+    private SeekBarPreference mSBEHStrokeThickness;
+    private SeekBarPreference mSBEHCornerRadius;
+    private SeekBarPreference mSBEHStrokeDashGap;
+    private SeekBarPreference mSBEHStrokeDashWidth;
    
+    private ContentResolver mResolver;
+
 
  @Override
     public void onCreate(Bundle icicle) {
@@ -170,6 +197,22 @@ public class QsColors extends SettingsPreferenceFragment  implements Preference.
         hexColor = String.format("#%08x", (0xffffffff & intColor));
         mQSRippleColor.setSummary(hexColor);
 	mQSRippleColor.setOnPreferenceChangeListener(this);
+
+        mHeaderTextColor = (ColorPickerPreference) findPreference(QS_HEADER_TEXT_COLOR);
+        mHeaderTextColor.setOnPreferenceChangeListener(this);
+        intColor = Settings.System.getInt(getContentResolver(),
+                    Settings.System.QS_HEADER_TEXT_COLOR, DEFAULT);
+        hexColor = String.format("#%08x", (0xffffffff & intColor));
+        mHeaderTextColor.setSummary(hexColor);
+        mHeaderTextColor.setNewPreviewColor(intColor);
+
+        mHeaderColor = (ColorPickerPreference) findPreference(QS_HEADER_COLOR);
+        mHeaderColor.setOnPreferenceChangeListener(this);
+        intColor = Settings.System.getInt(getContentResolver(),
+                    Settings.System.QS_HEADER_COLOR,DEFAULT_HEADER_BG);
+        hexColor = String.format("#%08x", (0xff384248 & intColor));
+        mHeaderColor.setSummary(hexColor);
+        mHeaderColor.setNewPreviewColor(intColor);
 
         mQsTextColor = (ColorPickerPreference) findPreference(QS_TEXT_COLOR);
         mQsTextColor.setOnPreferenceChangeListener(this);
@@ -221,7 +264,15 @@ public class QsColors extends SettingsPreferenceFragment  implements Preference.
 	PreferenceCategory catgenColors =
                 (PreferenceCategory) findPreference(GENERAL_COLORS);
 
-
+        mGradientOrientationHeader =
+                (ListPreference) findPreference(PREF_GRADIENT_ORIENTATION_HEADER);
+        final int orientation = Settings.System.getInt(mResolver,
+                Settings.System.HEADER_BACKGROUND_GRADIENT_ORIENTATION,
+                BACKGROUND_ORIENTATION_T_B);
+         mGradientOrientationHeader.setValue(String.valueOf(orientation));
+         mGradientOrientationHeader.setSummary(mGradientOrientationHeader.getEntry());
+         mGradientOrientationHeader.setOnPreferenceChangeListener(this);
+ 
          mStartColor =
                  (ColorPickerPreference) findPreference(PREF_START_COLOR);
          intColor = Settings.System.getInt(mResolver,
@@ -268,7 +319,42 @@ public class QsColors extends SettingsPreferenceFragment  implements Preference.
            mGradientOrientation.setSummary(mGradientOrientation.getEntry());
            mGradientOrientation.setOnPreferenceChangeListener(this);
    
-
+           mHeaderStartColor =
+                   (ColorPickerPreference) findPreference(PREF_HEADER_START_COLOR);
+           intColor = Settings.System.getInt(mResolver,
+                   Settings.System.HEADER_BACKGROUND_COLOR_START, BLACK); 
+           mHeaderStartColor.setNewPreviewColor(intColor);
+           hexColor = String.format("#%08x", (0xffffffff & intColor));
+           mHeaderStartColor.setSummary(hexColor);
+           mHeaderStartColor.setOnPreferenceChangeListener(this);
+   
+           final boolean useheaderCenterColor = Settings.System.getInt(mResolver,
+                   Settings.System.HEADER_BACKGROUND_GRADIENT_USE_CENTER_COLOR, 0) == 1;;
+   
+           mHeaderUseCenterColor = (SwitchPreference) findPreference(PREF_USE_CENTER_COLOR_HEADER);
+           mHeaderUseCenterColor.setChecked(useheaderCenterColor);
+           mHeaderUseCenterColor.setOnPreferenceChangeListener(this);
+   
+           mStartColor.setTitle(getResources().getString(R.string.background_start_color_title));
+   
+               mHeaderCenterColor =
+                       (ColorPickerPreference) findPreference(PREF_CENTER_COLOR_HEADER);
+               intColor = Settings.System.getInt(mResolver,
+                       Settings.System.HEADER_BACKGROUND_COLOR_CENTER, BLACK); 
+               mHeaderCenterColor.setNewPreviewColor(intColor);
+               hexColor = String.format("#%08x", (0xffffffff & intColor));
+               mHeaderCenterColor.setSummary(hexColor);
+               mHeaderCenterColor.setOnPreferenceChangeListener(this);
+   
+           mHeaderEndColor =
+                   (ColorPickerPreference) findPreference(PREF_HEADER_END_COLOR);
+           intColor = Settings.System.getInt(mResolver,
+                   Settings.System.HEADER_BACKGROUND_COLOR_END, BLACK); 
+           mHeaderEndColor.setNewPreviewColor(intColor);
+           hexColor = String.format("#%08x", (0xffffffff & intColor));
+           mHeaderEndColor.setSummary(hexColor);
+           mHeaderEndColor.setOnPreferenceChangeListener(this);
+	   setcolordisabler(qscolor);
 	   
 	   
             // QS stroke
@@ -328,10 +414,58 @@ public class QsColors extends SettingsPreferenceFragment  implements Preference.
              mQSDashGap.setOnPreferenceChangeListener(this);
 
             QSSettingsDisabler(qSStroke);
-
-	   setcolordisabler(qscolor);
             
+         final int strokeMode = Settings.System.getInt(mResolver,
+                Settings.System.STATUS_BAR_EXPANDED_HEADER_STROKE, ACCENT);
+	   boolean notDisabled = strokeMode == ACCENT || strokeMode == CUSTOM;
+            
+        mSBEHStroke = (ListPreference) findPreference(STATUS_BAR_EXPANDED_HEADER_STROKE);
+        mSBEHStroke.setValue(String.valueOf(strokeMode));
+        mSBEHStroke.setSummary(mSBEHStroke.getEntry());
+        mSBEHStroke.setOnPreferenceChangeListener(this);
 
+        mSBEHCornerRadius =
+                (SeekBarPreference) findPreference(STATUS_BAR_EXPANDED_HEADER_CORNER_RADIUS);
+        int cornerRadius = Settings.System.getInt(mResolver,
+                Settings.System.STATUS_BAR_EXPANDED_HEADER_CORNER_RADIUS, 2);
+        mSBEHCornerRadius.setValue(cornerRadius / 1);
+        mSBEHCornerRadius.setOnPreferenceChangeListener(this);
+
+            mSBEHStrokeDashGap =
+                    (SeekBarPreference) findPreference(STATUS_BAR_EXPANDED_HEADER_STROKE_DASH_GAP);
+            int strokeDashGap = Settings.System.getInt(mResolver,
+                    Settings.System.STATUS_BAR_EXPANDED_HEADER_STROKE_DASH_GAP, 10);
+            mSBEHStrokeDashGap.setValue(strokeDashGap / 1);
+            mSBEHStrokeDashGap.setOnPreferenceChangeListener(this);
+
+            mSBEHStrokeDashWidth =
+                    (SeekBarPreference) findPreference(STATUS_BAR_EXPANDED_HEADER_STROKE_DASH_WIDTH);
+            int strokeDashWidth = Settings.System.getInt(mResolver,
+                    Settings.System.STATUS_BAR_EXPANDED_HEADER_STROKE_DASH_WIDTH, 0);
+            mSBEHStrokeDashWidth.setValue(strokeDashWidth / 1);
+            mSBEHStrokeDashWidth.setOnPreferenceChangeListener(this);
+
+            mSBEHStrokeThickness =
+                    (SeekBarPreference) findPreference(STATUS_BAR_EXPANDED_HEADER_STROKE_THICKNESS);
+            int strokeThickness = Settings.System.getInt(mResolver,
+                    Settings.System.STATUS_BAR_EXPANDED_HEADER_STROKE_THICKNESS, 4);
+            mSBEHStrokeThickness.setValue(strokeThickness / 1);
+            mSBEHStrokeThickness.setOnPreferenceChangeListener(this);
+
+            mSBEHStrokeColor =
+                        (ColorPickerPreference) findPreference(STATUS_BAR_EXPANDED_HEADER_STROKE_COLOR);
+                intColor = Settings.System.getInt(mResolver,
+                        Settings.System.STATUS_BAR_EXPANDED_HEADER_STROKE_COLOR, DEFAULT_HEADER_STROKE_COLOR); 
+                mSBEHStrokeColor.setNewPreviewColor(intColor);
+                hexColor = String.format("#%08x", (0xffffffff & intColor));
+                mSBEHStrokeColor.setSummary(hexColor);
+                mSBEHStrokeColor.setOnPreferenceChangeListener(this);
+
+            int headerstroke = Settings.System.getIntForUser(mResolver,
+                            Settings.System.STATUS_BAR_EXPANDED_HEADER_STROKE, 0,
+                            UserHandle.USER_CURRENT);
+	   
+	    HeaderSettingsDisabler(headerstroke);
 
 	   setHasOptionsMenu(true);
 
@@ -353,8 +487,23 @@ public class QsColors extends SettingsPreferenceFragment  implements Preference.
 	public boolean onPreferenceChange(Preference preference, Object newValue) {
 	ContentResolver resolver = getActivity().getContentResolver();
 	Resources res = getResources();
-
-          if (preference == mQsTextColor) {
+	  if (preference == mHeaderTextColor) {
+            String hex = ColorPickerPreference.convertToARGB(
+                    Integer.valueOf(String.valueOf(newValue)));
+            preference.setSummary(hex);
+            int intHex = ColorPickerPreference.convertToColorInt(hex);
+            Settings.System.putInt(getActivity().getApplicationContext().getContentResolver(),
+                    Settings.System.QS_HEADER_TEXT_COLOR, intHex);
+            return true;
+         } else if (preference == mHeaderColor) {
+            String hex = ColorPickerPreference.convertToARGB(
+                    Integer.valueOf(String.valueOf(newValue)));
+            preference.setSummary(hex);
+            int intHex = ColorPickerPreference.convertToColorInt(hex);
+            Settings.System.putInt(getActivity().getApplicationContext().getContentResolver(),
+                    Settings.System.QS_HEADER_COLOR, intHex);
+            return true;
+         } else if (preference == mQsTextColor) {
             String hex = ColorPickerPreference.convertToARGB(
                     Integer.valueOf(String.valueOf(newValue)));
             preference.setSummary(hex);
@@ -432,7 +581,80 @@ public class QsColors extends SettingsPreferenceFragment  implements Preference.
                         intValue);
                 mGradientOrientation.setSummary(mGradientOrientation.getEntries()[index]);
                 return true;
-
+         }  else if (preference == mHeaderUseCenterColor) {
+               boolean value = (Boolean) newValue;
+               Settings.System.putInt(mResolver,
+                       Settings.System.HEADER_BACKGROUND_GRADIENT_USE_CENTER_COLOR,
+                       value ? 1 : 0);
+               return true;
+           } else if (preference == mHeaderStartColor) {
+               String hex = ColorPickerPreference.convertToARGB(
+                       Integer.valueOf(String.valueOf(newValue)));
+               int intHex = ColorPickerPreference.convertToColorInt(hex);
+               Settings.System.putInt(mResolver,
+                       Settings.System.HEADER_BACKGROUND_COLOR_START, intHex);
+               preference.setSummary(hex);
+               return true;
+           } else if (preference == mHeaderCenterColor) {
+               String hex = ColorPickerPreference.convertToARGB(
+                       Integer.valueOf(String.valueOf(newValue)));
+               int intHex  = ColorPickerPreference.convertToColorInt(hex);
+               Settings.System.putInt(mResolver,
+                       Settings.System.HEADER_BACKGROUND_COLOR_CENTER, intHex);
+               preference.setSummary(hex);
+               return true;
+           } else if (preference == mHeaderEndColor) {
+               String hex= ColorPickerPreference.convertToARGB(
+                       Integer.valueOf(String.valueOf(newValue)));
+               int intHex = ColorPickerPreference.convertToColorInt(hex);
+               Settings.System.putInt(mResolver,
+                       Settings.System.HEADER_BACKGROUND_COLOR_END, intHex);
+               preference.setSummary(hex);
+               return true;
+           }  else if (preference == mGradientOrientationHeader) {
+               int intValue = Integer.valueOf((String) newValue);
+               int index = mGradientOrientationHeader.findIndexOfValue((String) newValue);
+               Settings.System.putInt(mResolver,
+                       Settings.System.HEADER_BACKGROUND_GRADIENT_ORIENTATION,
+                       intValue);
+               mGradientOrientationHeader.setSummary(mGradientOrientationHeader.getEntries()[index]);
+               return true;
+         }  else if (preference == mSBEHStroke) {
+	    int Hstroke = Integer.parseInt((String) newValue);
+            Settings.System.putInt(mResolver, Settings.System.STATUS_BAR_EXPANDED_HEADER_STROKE,
+                    Integer.valueOf((String) newValue));
+            mSBEHStroke.setValue(String.valueOf(newValue));
+            mSBEHStroke.setSummary(mSBEHStroke.getEntry());
+            HeaderSettingsDisabler(Hstroke);
+            return true;
+        } else if (preference == mSBEHStrokeColor) {
+            String hex = ColorPickerPreference.convertToARGB(
+                    Integer.valueOf(String.valueOf(newValue)));
+            int intHex = ColorPickerPreference.convertToColorInt(hex);
+            Settings.System.putInt(mResolver,
+                    Settings.System.STATUS_BAR_EXPANDED_HEADER_STROKE_COLOR, intHex);
+            preference.setSummary(hex);
+            return true;
+        } else if (preference == mSBEHStrokeThickness) {
+            int val = (Integer) newValue;
+            Settings.System.putInt(mResolver,
+                    Settings.System.STATUS_BAR_EXPANDED_HEADER_STROKE_THICKNESS, val * 1);
+            return true;
+        } else if (preference == mSBEHCornerRadius) {
+            int val = (Integer) newValue;
+            Settings.System.putInt(mResolver,
+                    Settings.System.STATUS_BAR_EXPANDED_HEADER_CORNER_RADIUS, val * 1);
+            return true;
+        } else if (preference == mSBEHStrokeDashGap) {
+            int val = (Integer) newValue;
+            Settings.System.putInt(mResolver,
+                    Settings.System.STATUS_BAR_EXPANDED_HEADER_STROKE_DASH_GAP, val * 1);
+            return true;
+        } else if (preference == mSBEHStrokeDashWidth) {
+            int val = (Integer) newValue;
+            Settings.System.putInt(mResolver,
+                    Settings.System.STATUS_BAR_EXPANDED_HEADER_STROKE_DASH_WIDTH, val * 1);
+            return true;
 	}  else if (preference == mQSDashWidth) {
                  int val = (Integer) newValue;
                  Settings.System.putInt(mResolver,
@@ -531,6 +753,14 @@ public class QsColors extends SettingsPreferenceFragment  implements Preference.
 
     private void resetValues() {
         Settings.System.putInt(getContentResolver(),
+                Settings.System.QS_HEADER_TEXT_COLOR, DEFAULT);
+        mHeaderTextColor.setNewPreviewColor(DEFAULT);
+        mHeaderTextColor.setSummary(R.string.default_string);
+        Settings.System.putInt(getContentResolver(),
+                Settings.System.QS_HEADER_COLOR, DEFAULT_HEADER_BG);
+        mHeaderColor.setNewPreviewColor(DEFAULT_HEADER_BG);
+        mHeaderColor.setSummary(R.string.default_string);
+        Settings.System.putInt(getContentResolver(),
                 Settings.System.QS_ICON_COLOR, DEFAULT);
         mQsIconColor.setNewPreviewColor(DEFAULT);
         mQsIconColor.setSummary(R.string.default_string);
@@ -560,6 +790,7 @@ public class QsColors extends SettingsPreferenceFragment  implements Preference.
 		 catBgColors.setEnabled(false);
 		 catgenColors.setEnabled(false);
 		 mQsIconColor.setEnabled(false);
+		 mHeaderColor.setEnabled(false);
 		 mQsBgColor.setEnabled(false);
 		 mQsTextColor.setEnabled(false);
 		 mQSBrightnessSliderColor.setEnabled(false);
@@ -570,6 +801,7 @@ public class QsColors extends SettingsPreferenceFragment  implements Preference.
 	 	 catBgColors.setEnabled(false);
 	         catgenColors.setEnabled(true);
 		 mQsIconColor.setEnabled(true);
+		 mHeaderColor.setEnabled(true);
 		 mQsBgColor.setEnabled(true);
 		 mQsTextColor.setEnabled(true);
 		 mQSBrightnessSliderColor.setEnabled(true);
@@ -580,6 +812,7 @@ public class QsColors extends SettingsPreferenceFragment  implements Preference.
 		 catBgColors.setEnabled(true);
 		 catgenColors.setEnabled(true);
 		 mQsIconColor.setEnabled(true);
+		 mHeaderColor.setEnabled(false);
 		 mQsBgColor.setEnabled(false);
 		 mQsTextColor.setEnabled(true);
 		 mQSBrightnessSliderColor.setEnabled(true);
@@ -590,6 +823,7 @@ public class QsColors extends SettingsPreferenceFragment  implements Preference.
 		 catBgColors.setEnabled(false);
 		 catgenColors.setEnabled(true);
 		 mQsIconColor.setEnabled(false);
+		 mHeaderColor.setEnabled(true);
 		 mQsBgColor.setEnabled(true);
 		 mQsTextColor.setEnabled(true);
 		 mQSBrightnessSliderColor.setEnabled(true);
@@ -600,6 +834,7 @@ public class QsColors extends SettingsPreferenceFragment  implements Preference.
 		 catBgColors.setEnabled(true);
 		 catgenColors.setEnabled(true);
 		 mQsIconColor.setEnabled(false);
+		 mHeaderColor.setEnabled(false);
 		 mQsBgColor.setEnabled(false);
 		 mQsTextColor.setEnabled(true);
 		 mQSBrightnessSliderColor.setEnabled(true);
@@ -632,7 +867,27 @@ public class QsColors extends SettingsPreferenceFragment  implements Preference.
         }
         
         
-
+     public void HeaderSettingsDisabler(int stroke) {
+	     if (stroke == 0) {
+                mSBEHStrokeColor.setEnabled(false);
+                mSBEHStrokeThickness.setEnabled(false);
+		mSBEHCornerRadius.setEnabled(false);
+                mSBEHStrokeDashWidth.setEnabled(false);
+                mSBEHStrokeDashGap.setEnabled(false);
+            } else if (stroke == 1) {
+                mSBEHStrokeColor.setEnabled(false);
+                mSBEHStrokeThickness.setEnabled(true);
+		mSBEHCornerRadius.setEnabled(true);
+                mSBEHStrokeDashWidth.setEnabled(true);
+                mSBEHStrokeDashGap.setEnabled(true);
+            } else {
+                mSBEHStrokeColor.setEnabled(true);
+                mSBEHStrokeThickness.setEnabled(true);
+		mSBEHCornerRadius.setEnabled(true);
+                mSBEHStrokeDashWidth.setEnabled(true);
+                mSBEHStrokeDashGap.setEnabled(true);
+            }
+        }
     
     
     	    public static final Indexable.SearchIndexProvider SEARCH_INDEX_DATA_PROVIDER =
