@@ -1685,6 +1685,7 @@
 	<string name="text_title">Text</string>
 	
 	<string name="notification_color_settings_title">Notification colors</string>
+        <string name="notification_icons_title">Icon color</string>
         <string name="custom_notification_color_settings_summary">Change the color of your notifications</string>
 	<string name="notification_media_bg_mode_title">Colorize the media background</string>
 	<string name="notification_app_icon_bg_mode_title">Colorize the app icon background</string>

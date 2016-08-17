@@ -19,9 +19,15 @@
     xmlns:settings="http://schemas.android.com/apk/res/com.android.settings"
     android:title="@string/notification_color_settings_title">
 
+  <com.android.settings.cyanogenmod.SystemSettingSwitchPreference
+            android:key="notif_color_switch"
+            android:title="@string/notif_color_switch"
+            android:defaultValue="false"/>
+
     <PreferenceCategory
         android:key="notification_cat_background"
-        android:title="@string/background_title">
+        android:title="@string/background_title"
+        android:dependency="notif_color_switch">
 
         <ListPreference
             android:key="notification_media_bg_mode"
@@ -47,7 +53,8 @@
 
     <PreferenceCategory
         android:key="notification_cat_icon"
-        android:title="@string/icon_title">
+        android:title="@string/icon_title"
+        android:dependency="notif_color_switch">
 
     <ListPreference
         android:key="notification_app_icon_color_mode"
@@ -59,7 +66,8 @@
 
     <PreferenceCategory
         android:key="notification_cat_colors"
-        android:title="@string/colors_title">
+        android:title="@string/colors_title"
+        android:dependency="notif_color_switch">
 
          <net.margaritov.preference.colorpicker.ColorPickerPreference
             android:key="notification_bg_color"
@@ -88,7 +96,7 @@
 
          <net.margaritov.preference.colorpicker.ColorPickerPreference
             android:key="notification_icon_color"
-            android:title="@string/icons_title"
+            android:title="@string/notification_icons_title"
             android:defaultValue="0xff009688" />
 
          <net.margaritov.preference.colorpicker.ColorPickerPreference
