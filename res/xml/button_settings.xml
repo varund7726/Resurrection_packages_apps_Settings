@@ -63,6 +63,12 @@
             settings:unitsRight="%"
             android:persistent="false"/>
 
+    <ListPreference
+        android:key="pm_font_styles"
+        android:entries="@array/status_bar_weather_font_style_entries"
+        android:entryValues="@array/status_bar_weather_font_style_values"
+        android:title="@string/notifications_fonts" />
+
         <SwitchPreference
             android:key="power_end_call"
             android:title="@string/power_end_call_title"

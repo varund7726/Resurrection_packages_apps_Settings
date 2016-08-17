@@ -58,8 +58,6 @@ import java.util.ArrayList;
 
 public class QsColors extends SettingsPreferenceFragment  implements Preference.OnPreferenceChangeListener ,Indexable{
 
- private static final String QS_HEADER_TEXT_COLOR = "qs_header_text_color";
- private static final String QS_HEADER_COLOR = "qs_header_color";
  private static final String QS_TEXT_COLOR = "qs_text_color";
  private static final String QS_ICON_COLOR = "qs_icon_color";
  private static final String QS_BACKGROUND_COLOR = "qs_bg_color";
@@ -105,8 +103,7 @@ public class QsColors extends SettingsPreferenceFragment  implements Preference.
     private static final int MENU_RESET = Menu.FIRST;
 	
 
-    private ColorPickerPreference mHeaderTextColor;
-    private ColorPickerPreference mHeaderColor;
+
     private ColorPickerPreference mQsTextColor;
     private ColorPickerPreference mQsIconColor;	
     private ColorPickerPreference mQsBgColor;	
@@ -173,22 +170,6 @@ public class QsColors extends SettingsPreferenceFragment  implements Preference.
         hexColor = String.format("#%08x", (0xffffffff & intColor));
         mQSRippleColor.setSummary(hexColor);
 	mQSRippleColor.setOnPreferenceChangeListener(this);
-
-        mHeaderTextColor = (ColorPickerPreference) findPreference(QS_HEADER_TEXT_COLOR);
-        mHeaderTextColor.setOnPreferenceChangeListener(this);
-        intColor = Settings.System.getInt(getContentResolver(),
-                    Settings.System.QS_HEADER_TEXT_COLOR, DEFAULT);
-        hexColor = String.format("#%08x", (0xffffffff & intColor));
-        mHeaderTextColor.setSummary(hexColor);
-        mHeaderTextColor.setNewPreviewColor(intColor);
-
-        mHeaderColor = (ColorPickerPreference) findPreference(QS_HEADER_COLOR);
-        mHeaderColor.setOnPreferenceChangeListener(this);
-        intColor = Settings.System.getInt(getContentResolver(),
-                    Settings.System.QS_HEADER_COLOR,DEFAULT_HEADER_BG);
-        hexColor = String.format("#%08x", (0xff384248 & intColor));
-        mHeaderColor.setSummary(hexColor);
-        mHeaderColor.setNewPreviewColor(intColor);
 
         mQsTextColor = (ColorPickerPreference) findPreference(QS_TEXT_COLOR);
         mQsTextColor.setOnPreferenceChangeListener(this);
@@ -347,6 +328,8 @@ public class QsColors extends SettingsPreferenceFragment  implements Preference.
              mQSDashGap.setOnPreferenceChangeListener(this);
 
             QSSettingsDisabler(qSStroke);
+
+	   setcolordisabler(qscolor);
             
 
 
@@ -370,23 +353,8 @@ public class QsColors extends SettingsPreferenceFragment  implements Preference.
 	public boolean onPreferenceChange(Preference preference, Object newValue) {
 	ContentResolver resolver = getActivity().getContentResolver();
 	Resources res = getResources();
-	  if (preference == mHeaderTextColor) {
-            String hex = ColorPickerPreference.convertToARGB(
-                    Integer.valueOf(String.valueOf(newValue)));
-            preference.setSummary(hex);
-            int intHex = ColorPickerPreference.convertToColorInt(hex);
-            Settings.System.putInt(getActivity().getApplicationContext().getContentResolver(),
-                    Settings.System.QS_HEADER_TEXT_COLOR, intHex);
-            return true;
-         } else if (preference == mHeaderColor) {
-            String hex = ColorPickerPreference.convertToARGB(
-                    Integer.valueOf(String.valueOf(newValue)));
-            preference.setSummary(hex);
-            int intHex = ColorPickerPreference.convertToColorInt(hex);
-            Settings.System.putInt(getActivity().getApplicationContext().getContentResolver(),
-                    Settings.System.QS_HEADER_COLOR, intHex);
-            return true;
-         } else if (preference == mQsTextColor) {
+
+          if (preference == mQsTextColor) {
             String hex = ColorPickerPreference.convertToARGB(
                     Integer.valueOf(String.valueOf(newValue)));
             preference.setSummary(hex);

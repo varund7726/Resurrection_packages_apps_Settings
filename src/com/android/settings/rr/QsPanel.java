@@ -231,7 +231,6 @@ public class QsPanel extends SettingsPreferenceFragment  implements Preference.O
             mQSFontStyle.setValue(String.valueOf(newValue));
             mQSFontStyle.setSummary(mQSFontStyle.getEntry());
             return true;
-            return true;
 	  }
          return false;
 	}

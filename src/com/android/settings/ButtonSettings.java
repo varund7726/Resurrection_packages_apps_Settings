@@ -94,6 +94,7 @@ public class ButtonSettings extends SettingsPreferenceFragment implements
     private static final String ADVANCED_REBOOT_KEY = "advanced_reboot";
     private static final String PREF_TRANSPARENT_POWER_MENU = "transparent_power_menu";
     private static final String PREF_TRANSPARENT_POWER_DIALOG_DIM = "transparent_power_dialog_dim";
+    private static final String PM_FONT_STYLES = "pm_font_styles";
 
     private static final String KEY_VOLUME_ANSWER_CALL = "volume_answer_call";
     private static final String KEY_CAMERA_DOUBLE_TAP_POWER_GESTURE
@@ -167,6 +168,7 @@ public class ButtonSettings extends SettingsPreferenceFragment implements
     private SwitchPreference mAdvancedReboot;
     private SeekBarPreferenceCham mPowerMenuAlpha;
     private SeekBarPreferenceCham mPowerDialogDim;
+    private ListPreference mPMFontStyles;
 
     private Handler mHandler;
 
@@ -255,6 +257,12 @@ public class ButtonSettings extends SettingsPreferenceFragment implements
                     Settings.System.TRANSPARENT_POWER_DIALOG_DIM, 50);
             mPowerDialogDim.setValue(powerDialogDim / 1);
             mPowerDialogDim.setOnPreferenceChangeListener(this);
+
+        mPMFontStyles = (ListPreference) findPreference(PM_FONT_STYLES);
+        mPMFontStyles.setOnPreferenceChangeListener(this);
+        mPMFontStyles.setValue(Integer.toString(Settings.System.getInt(getActivity()
+                .getContentResolver(), Settings.System.PM_FONT_STYLES, 0)));
+        mPMFontStyles.setSummary(mPMFontStyles.getEntry());
 
     
             // Enable/disable hw keys
@@ -524,12 +532,19 @@ public class ButtonSettings extends SettingsPreferenceFragment implements
 		int alpha = (Integer) newValue;
                 Settings.System.putInt(getActivity().getApplicationContext().getContentResolver(),
                         Settings.System.TRANSPARENT_POWER_MENU, alpha * 1);
-                return true;
+            return true;
 	}  else if (preference == mPowerDialogDim) {
 		int alpha = (Integer) newValue;
                 Settings.System.putInt(getActivity().getApplicationContext().getContentResolver(),
                         Settings.System.TRANSPARENT_POWER_DIALOG_DIM, alpha * 1);
-                return true;
+            return true;
+         } else if (preference == mPMFontStyles) {
+            int val = Integer.parseInt((String) newValue);
+            int index = mPMFontStyles.findIndexOfValue((String) newValue);
+            Settings.System.putInt(getActivity().getContentResolver(),
+                    Settings.System.PM_FONT_STYLES, val);
+            mPMFontStyles.setSummary(mPMFontStyles.getEntries()[index]);
+            return true;
         }  else if (preference == mEnableHwKeys) {
             boolean hWkeysValue = (Boolean) newValue;
             Settings.System.putInt(getActivity().getApplicationContext().getContentResolver(),

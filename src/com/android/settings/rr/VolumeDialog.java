@@ -445,58 +445,6 @@ public class VolumeDialog extends SettingsPreferenceFragment implements
         }
         
 
-       private void showDialogInner(int id) {
-        DialogFragment newFragment = MyAlertDialogFragment.newInstance(id);
-        newFragment.setTargetFragment(this, 0);
-        newFragment.show(getFragmentManager(), "dialog " + id);
-    }
-
-    public static class MyAlertDialogFragment extends DialogFragment {
-
-        public static MyAlertDialogFragment newInstance(int id) {
-            MyAlertDialogFragment frag = new MyAlertDialogFragment();
-            Bundle args = new Bundle();
-            args.putInt("id", id);
-            frag.setArguments(args);
-            return frag;
-        }
-
-        NotificationColorSettings getOwner() {
-            return (NotificationColorSettings) getTargetFragment();
-        }
-
-        @Override
-        public Dialog onCreateDialog(Bundle savedInstanceState) {
-            int id = getArguments().getInt("id");
-            switch (id) {
-                case DLG_RESET:
-                    return new AlertDialog.Builder(getActivity())
-                    .setTitle(R.string.reset)
-                    .setMessage(R.string.dlg_reset_values_message)
-                    .setNegativeButton(R.string.cancel, null)
-                    .setNeutralButton(R.string.dlg_reset_android,
-                        new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            getOwner().refreshSettings();
-                        }
-                    })
-                    .setPositiveButton(R.string.dlg_reset_rr,
-                        new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            getOwner().refreshSettings();
-                        }
-                    })
-                    .create();
-            }
-            throw new IllegalArgumentException("unknown id " + id);
-        }
-
-        @Override
-        public void onCancel(DialogInterface dialog) {
-
-        }
-    }
-    
         public static final Indexable.SearchIndexProvider SEARCH_INDEX_DATA_PROVIDER =
             new BaseSearchIndexProvider() {
                 @Override

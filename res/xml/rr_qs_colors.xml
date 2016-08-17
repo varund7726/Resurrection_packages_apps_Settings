@@ -49,12 +49,6 @@
         android:defaultValue="0xffffffff" />
 
     <net.margaritov.preference.colorpicker.ColorPickerPreference
-        android:key="qs_header_text_color"
-        android:title="@string/qs_header_text_color"
-        android:defaultValue="0xffffffff" />
-
-
-    <net.margaritov.preference.colorpicker.ColorPickerPreference
         android:key="qs_brightness_icon_color"
         android:title="@string/qs_brightness_icon_color"
         android:defaultValue="0xff263238" />
@@ -79,11 +73,6 @@
     <PreferenceCategory
         android:key="rr_qs_bg_colors"
         android:title="@string/rr_bg_colors_title">
-
-    <net.margaritov.preference.colorpicker.ColorPickerPreference
-        android:key="qs_header_color"
-        android:title="@string/qs_header_color"
-        android:defaultValue="0xff263238"  />
 
     <net.margaritov.preference.colorpicker.ColorPickerPreference
         android:key="qs_bg_color"
@@ -125,33 +114,7 @@
             android:title="@string/background_end_color_title"
             android:defaultValue="0xff000000" />
 
-         <SwitchPreference
-             android:key="header_background_gradient_use_center_color"
-             android:title="@string/background_header_gradient_use_center_color_title"
-             android:summary="@string/background_header_gradient_use_center_color_summary" />
- 
-         <ListPreference
-             android:key="header_background_gradient_orientation"
-             android:title="@string/background_gradient_orientation_title"
-             android:dialogTitle="@string/background_gradient_orientation_dlg_title"
-             android:entries="@array/background_gradient_orientation_entries"
-             android:entryValues="@array/background_gradient_orientation_values" />
- 
-         <net.margaritov.preference.colorpicker.ColorPickerPreference
-             android:key="header_background_color_start"
-             android:title="@string/header_center_color_title"
-             android:defaultValue="0xff000000" />
- 
-          <net.margaritov.preference.colorpicker.ColorPickerPreference
-             android:key="header_background_color_center"
-             android:title="@string/header_background_center_color_title"
-             android:defaultValue="0xff000000" 
-	     android:dependency="header_background_gradient_use_center_color"/>
- 
-          <net.margaritov.preference.colorpicker.ColorPickerPreference
-             android:key="header_background_color_end"
-             android:title="@string/header_background_end_color_title"
-             android:defaultValue="0xff000000" />
+
 
 
 </PreferenceCategory>
