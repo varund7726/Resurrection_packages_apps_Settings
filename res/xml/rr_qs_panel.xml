@@ -87,8 +87,8 @@
         <ListPreference
             android:key="qs_font_styles"
             android:entries="@array/status_bar_weather_font_style_entries"
-            android:entryValues="@array/status_bar_weather_font_style_entries"
-            android:title="@string/status_bar_weather_font_style_title" />
+            android:entryValues="@array/status_bar_weather_font_style_values"
+            android:title="@string/notifications_fonts" />
 
 
     <SwitchPreference
