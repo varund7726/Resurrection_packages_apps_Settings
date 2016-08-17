@@ -66,7 +66,6 @@ import com.android.settings.rr.LockScreenGestures;
 import com.android.settings.rr.LockScreenMedia;
 import com.android.settings.rr.LockscreenUI;
 import com.android.settings.rr.Navbar;
-import com.android.settings.rr.NotificationColorSettings;
 import com.android.settings.rr.PulseSettings;
 import com.android.settings.rr.QsColors;
 import com.android.settings.rr.QsPanel;
@@ -461,15 +460,6 @@ public final class SearchIndexableResources {
                         Navbar.class.getName(),
                         R.drawable.rr_navbar_icon));
                         
-                              
-      sResMap.put(NotificationColorSettings.class.getName(),
-                new SearchIndexableResource(
-                        Ranking.getRankForClassName(NotificationColorSettings.class.getName()),
-                        NO_DATA_RES_ID,
-                        NotificationColorSettings.class.getName(),
-                        R.drawable.rr_notification_drawer_icon));
-                        
-                              
       sResMap.put(PulseSettings.class.getName(),
                 new SearchIndexableResource(
                         Ranking.getRankForClassName(PulseSettings.class.getName()),

@@ -65,7 +65,6 @@ import com.android.settings.rr.LockScreenGestures;
 import com.android.settings.rr.LockScreenMedia;
 import com.android.settings.rr.LockscreenUI;
 import com.android.settings.rr.Navbar;
-import com.android.settings.rr.NotificationColorSettings;
 import com.android.settings.rr.PulseSettings;
 import com.android.settings.rr.QsColors;
 import com.android.settings.rr.QsPanel;
@@ -266,8 +265,6 @@ public final class Ranking {
 
         sRankMap.put(Navbar.class.getName(), RANK_RR_NAVBAR);
 
-        sRankMap.put(NotificationColorSettings.class.getName(), RANK_RR_NCOLORS);
-  
         sRankMap.put(PulseSettings.class.getName(), RANK_RR_PULSE);
 
         sRankMap.put(QsColors.class.getName(), RANK_RR_QSCOLORS);

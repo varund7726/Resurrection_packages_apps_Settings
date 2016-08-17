@@ -33,12 +33,16 @@ import com.android.settings.Utils;
 import android.provider.SearchIndexableResource;
 import com.android.settings.search.BaseSearchIndexProvider;
 import com.android.settings.search.Indexable;
+import com.android.settings.rr.SeekBarPreference;
+import com.android.settings.rr.SeekBarPreferenceCham;
 
 import com.android.internal.logging.MetricsLogger;
 import cyanogenmod.providers.CMSettings;
 
 import com.android.settings.R;
 import com.android.settings.SettingsPreferenceFragment;
+
+import net.margaritov.preference.colorpicker.ColorPickerPreference;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -167,7 +171,7 @@ public class QsPanel extends SettingsPreferenceFragment  implements Preference.O
             // QS panel RR logo
              mQSPanelLogo =
                      (ListPreference) findPreference(PREF_QS_PANEL_LOGO);
-             int qSPanelLogo = Settings.System.getIntForUser(mResolver,
+             int qSPanelLogo = Settings.System.getIntForUser(resolver,
                              Settings.System.QS_PANEL_LOGO, 0,
                              UserHandle.USER_CURRENT);
              mQSPanelLogo.setValue(String.valueOf(qSPanelLogo));
@@ -178,7 +182,7 @@ public class QsPanel extends SettingsPreferenceFragment  implements Preference.O
              mQSPanelLogoColor =
                      (ColorPickerPreference) findPreference(PREF_QS_PANEL_LOGO_COLOR);
              mQSPanelLogoColor.setOnPreferenceChangeListener(this);
-             int qSPanelLogoColor = Settings.System.getInt(mResolver,
+             int qSPanelLogoColor = Settings.System.getInt(resolver,
                      Settings.System.QS_PANEL_LOGO_COLOR, DEFAULT_QS_PANEL_LOGO_COLOR);
              String qSHexLogoColor = String.format("#%08x", (0xFF80CBC4 & qSPanelLogoColor));
              mQSPanelLogoColor.setSummary(qSHexLogoColor);
@@ -187,7 +191,7 @@ public class QsPanel extends SettingsPreferenceFragment  implements Preference.O
              // QS panel RR logo alpha
              mQSPanelLogoAlpha =
                      (SeekBarPreferenceCham) findPreference(PREF_QS_PANEL_LOGO_ALPHA);
-             int qSPanelLogoAlpha = Settings.System.getInt(mResolver,
+             int qSPanelLogoAlpha = Settings.System.getInt(resolver,
                      Settings.System.QS_PANEL_LOGO_ALPHA, 51);
              mQSPanelLogoAlpha.setValue(qSPanelLogoAlpha / 1);
              mQSPanelLogoAlpha.setOnPreferenceChangeListener(this);
@@ -248,47 +252,47 @@ public class QsPanel extends SettingsPreferenceFragment  implements Preference.O
              return true;
          } else if (preference == mTileAnimationDuration) {
              int tileAnimationDuration = Integer.valueOf((String) newValue);
-             Settings.System.putIntForUser(getContentResolver(), Settings.System.ANIM_TILE_DURATION,
+             Settings.System.putIntForUser(resolver, Settings.System.ANIM_TILE_DURATION,
                      tileAnimationDuration, UserHandle.USER_CURRENT);
              updateTileAnimationDurationSummary(tileAnimationDuration);
              return true;
          } else if (preference == mTileAnimationInterpolator) {
             int tileAnimationInterpolator = Integer.valueOf((String) newValue);
-            Settings.System.putIntForUser(getContentResolver(), Settings.System.ANIM_TILE_INTERPOLATOR,
+            Settings.System.putIntForUser(resolver, Settings.System.ANIM_TILE_INTERPOLATOR,
                     tileAnimationInterpolator, UserHandle.USER_CURRENT);
             updateTileAnimationInterpolatorSummary(tileAnimationInterpolator);
             return true;
 	  } else if (preference == mAnimation) {
-            Settings.System.putInt(getContentResolver(), Settings.System.QS_TASK_ANIMATION,
+            Settings.System.putInt(resolver, Settings.System.QS_TASK_ANIMATION,
                     Integer.valueOf((String) newValue));
             mAnimation.setValue(String.valueOf(newValue));
             mAnimation.setSummary(mAnimation.getEntry());
             return true;
         } else if (preference == mQSFontStyle) {
-            Settings.System.putInt(getContentResolver(), Settings.System.QS_FONT_STYLES,
+            Settings.System.putInt(resolver, Settings.System.QS_FONT_STYLES,
                     Integer.valueOf((String) newValue));
             mQSFontStyle.setValue(String.valueOf(newValue));
             mQSFontStyle.setSummary(mQSFontStyle.getEntry());
             return true;
-         if (preference == mQSPanelLogo) {
+         } else if (preference == mQSPanelLogo) {
                  int qSPanelLogo = Integer.parseInt((String) newValue);
                  int index = mQSPanelLogo.findIndexOfValue((String) newValue);
-                 Settings.System.putIntForUser(mResolver, Settings.System.
-                         QS_PANEL_LOGO, qSPanelLogo, UserHandle.USER_CURRENT);
+                 Settings.System.putIntForUser(resolver, 
+                     Settings.System.QS_PANEL_LOGO, qSPanelLogo, UserHandle.USER_CURRENT);
                  mQSPanelLogo.setSummary(mQSPanelLogo.getEntries()[index]);
                  QSPanelLogoSettingsDisabler(qSPanelLogo);
                  return true;
         } else if (preference == mQSPanelLogoColor) {
-                 hex = ColorPickerPreference.convertToARGB(
+                 String hex = ColorPickerPreference.convertToARGB(
                          Integer.valueOf(String.valueOf(newValue)));
                  preference.setSummary(hex);
-                 intHex = ColorPickerPreference.convertToColorInt(hex);
-                 Settings.System.putInt(mResolver,
+                 int intHex = ColorPickerPreference.convertToColorInt(hex);
+                 Settings.System.putInt(resolver,
                          Settings.System.QS_PANEL_LOGO_COLOR, intHex);
                  return true;
         } else if (preference == mQSPanelLogoAlpha) {
                  int val = (Integer) newValue;
-                 Settings.System.putInt(mResolver,
+                 Settings.System.putInt(resolver,
                         Settings.System.QS_PANEL_LOGO_ALPHA, val * 1);
                 return true;
 	  }
