@@ -2314,6 +2314,7 @@
      <string name="volume_dialog_slider_color_title">Slider Icon</string>
      <string name="volume_dialog_slider_inactive_color_title">Inactive Slider</string>
      <string name="volume_dialog_expand_button_color_title">Expand Button</string>
+     <string name="volume_dialog_icon_title">Icon</string>
 
      <!-- Volume dialog timeout -->
      <string name="volume_dialog_timeout_title">Volume dialog timeout</string>

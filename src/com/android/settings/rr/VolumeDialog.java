@@ -72,6 +72,7 @@ public class VolumeDialog extends SettingsPreferenceFragment implements
     private static final String VOLUME_DIALOG_SLIDER_INACTIVE_COLOR = "volume_dialog_slider_inactive_color";
     private static final String VOLUME_DIALOG_SLIDER_ICON_COLOR = "volume_dialog_slider_icon_color";
     private static final String VOLUME_DIALOG_EXPAND_BUTTON_COLOR = "volume_dialog_expand_button_color";
+    private static final String VOLUME_DIALOG_ICON_COLOR = "volume_dialog_icon_color";
 
     private static final int BACKGROUND_ORIENTATION_T_B = 270;
 
@@ -110,6 +111,7 @@ public class VolumeDialog extends SettingsPreferenceFragment implements
     private ColorPickerPreference mSliderInactiveColor;
     private ColorPickerPreference mSliderIconColor;
     private ColorPickerPreference mExpandButtonColor;
+    private ColorPickerPreference mIconColor;
     private ContentResolver mResolver;
 
     @Override
@@ -247,6 +249,16 @@ public class VolumeDialog extends SettingsPreferenceFragment implements
        		hexColor = String.format("#%08x", (0xffffffff & intColor));
         	mEndColor.setSummary(hexColor);
 		    mEndColor.setOnPreferenceChangeListener(this);
+
+        	mIconColor =
+                (ColorPickerPreference) findPreference(VOLUME_DIALOG_ICON_COLOR);
+        	intColor = Settings.System.getInt(mResolver,
+              	  Settings.System.VOLUME_DIALOG_ICON_COLOR,
+                	MATERIAL_GREEN);
+        	mIconColor.setNewPreviewColor(intColor);
+      		hexColor = String.format("#%08x", (0xffffffff & intColor));
+       		mIconColor.setSummary(hexColor);
+mIconColor.setOnPreferenceChangeListener(this);
 
      		mSliderColor =
                 (ColorPickerPreference) findPreference(VOLUME_DIALOG_SLIDER_COLOR);
@@ -404,7 +416,15 @@ public class VolumeDialog extends SettingsPreferenceFragment implements
                     Settings.System.VOLUME_DIALOG_EXPAND_BUTTON_COLOR, intHex);
             preference.setSummary(hex);
             return true;
-	  } 
+	  } else if (preference == mIconColor) {
+            hex = ColorPickerPreference.convertToARGB(
+                    Integer.valueOf(String.valueOf(newValue)));
+            intHex = ColorPickerPreference.convertToColorInt(hex);
+            Settings.System.putInt(mResolver,
+                    Settings.System.VOLUME_DIALOG_ICON_COLOR, intHex);
+            preference.setSummary(hex);
+            return true;
+	 }
         return false;
     }
     
